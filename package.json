@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "### Откройте pull request в ветку main из ветки, где вы разрабатывали проект, и добавьте ссылку на этот pr в README.md в ветке main. Название pull request может быть любое.",
   "scripts": {
-    "dev": "npm run clear && parcel ./src/index.pug",
+    "start": "npm run clear && parcel ./src/index.pug",
     "build": "npm run clear && parcel build ./src/index.pug",
     "clear": "rm -rf dist"
   },
