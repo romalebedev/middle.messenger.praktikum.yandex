@@ -1,0 +1,20 @@
+extends ../../components/layout/layout.pug
+include ../../components/button/button.pug
+
+block variable
+  - const inputs = { mail: "pochta@yandex.ru", login: "Логин", name: "Имя", secondName: "Фамилия", chatName: "Имя в чате", phone: "Телефон" }
+
+block content  
+  .container
+    .avatar-block.flex
+      img(src="../../resources/profile.svg", alt="Аватар").avatar
+      span Имя
+    ul.user-block-list 
+      each val, key in inputs
+        li.user-block-item
+          span= key
+          span= val 
+    .wrapper-links.flex 
+      +button("Изменить данные", "button")
+      span.error.margin Дополнительная страница для редактирование данных будет сверстана позже   
+      a(href="#").link Изменить пароль          
