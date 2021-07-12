@@ -1,0 +1,31 @@
+extends ../../../components/layout/layout.pug
+include ../../../components/button/button.pug
+
+block content  
+  .container
+    .avatar-block.flex
+      img(src="../../../resources/profile.svg", alt="Аватар").avatar
+    ul.user-block-list 
+        li.user-block-item.list-item
+          span Почта
+          input(type="text" value="pochta@yandex.ru").input.change-input
+        li.user-block-item.list-item
+          span Логин
+          input(type="text" value="Логин").input.change-input
+        li.user-block-item.list-item
+          span Имя
+          input(type="text" value="Имя").input.change-input  
+        li.user-block-item.list-item
+          span Фамилия
+          input(type="text" value="Фамилия").input.change-input
+        li.user-block-item.list-item
+          span Имя в чате
+          input(type="text" value="Имя в чате").input.change-input
+        li.user-block-item.list-item
+          span Телефон
+          input(type="text" value="Телефон").input.change-input      
+    .wrapper-links.flex 
+      +button("Сохранить", "button")  
+      a(href="../profile.pug").link Вернуться назад 
+block scripts
+    script(src='../../../components/button')                 
