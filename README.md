@@ -5,7 +5,7 @@ https://www.figma.com/file/HjGWPHONKvb7Z1QHWlF58m/Praktikum-Chat
 
 ## Ссылка на netlify
 
-https://jovial-leakey-c7cdc3.netlify.app/
+https://60ec070b86b2de0540f2662f--jovial-leakey-c7cdc3.netlify.app/
 
 ## Описание
 
