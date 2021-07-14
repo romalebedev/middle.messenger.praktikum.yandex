@@ -1,0 +1,29 @@
+{
+  "name": "middle_frontend",
+  "version": "1.0.0",
+  "description": "### Откройте pull request в ветку main из ветки, где вы разрабатывали проект, и добавьте ссылку на этот pr в README.md в ветке main. Название pull request может быть любое.",
+  "scripts": {
+    "start": "npm run clear && parcel ./src/index.pug --port 3000",
+    "build": "npm run clear && parcel build ./src/index.pug",
+    "clear": "rm -rf dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/romalebedev/middle.messenger.praktikum.yandex.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/romalebedev/middle.messenger.praktikum.yandex/issues"
+  },
+  "homepage": "https://github.com/romalebedev/middle.messenger.praktikum.yandex#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@parcel/transformer-pug": "^2.0.0-beta.2",
+    "@parcel/transformer-sass": "^2.0.0-beta.2",
+    "parcel": "^2.0.0-beta.2",
+    "pug": "^3.0.2",
+    "sass": "^1.35.2"
+  }
+}
