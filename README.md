@@ -1,4 +1,6 @@
 ## Ссылка на макет
+=======
+[Ссылка на PR](https://github.com/romalebedev/middle.messenger.praktikum.yandex/pull/1)
 
 https://www.figma.com/file/HjGWPHONKvb7Z1QHWlF58m/Praktikum-Chat
 
