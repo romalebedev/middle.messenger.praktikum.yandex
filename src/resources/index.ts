@@ -1,5 +1,5 @@
-import profile from './profile.svg'
+import profile from './profile.svg';
 
 export {
-    profile
-}
+	profile,
+};
