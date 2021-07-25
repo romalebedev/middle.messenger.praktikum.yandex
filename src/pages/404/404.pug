@@ -1,10 +1,7 @@
 extends ../../components/layout/layout.pug
 include ../../components/button/button.pug
 
-block content  
-    div.container
-        h1 404
-        span.text Не туда попали
-        a(href="../../index.pug").link вернуться назад
+block content 
+    div#root
 block scripts
     script(src='./index.ts')   
