@@ -1,20 +1,6 @@
 extends ../../components/layout/layout.pug
-include ../../components/button/button.pug
 
-block content  
-        .container
-            h1 Регистрация
-            form.flex.form     
-                input(type="text", placeholder="Почта").input
-                input(type="text", placeholder="Логин").input
-                input(type="text", placeholder="Имя").input
-                input(type="text", placeholder="Фамилия").input
-                input(type="text", placeholder="Номер телефона").input
-                input(type="text", placeholder="Пароль").input
-                input(type="text", placeholder="Пароль еще раз").input
-                span.error все поля обазательны для заполнения
-            div.flex
-                +button("Зарегистрироваться", "button")     
-                a(href="#").link Войти
+block content
+    div#root
 block scripts
-    script(src='./index.ts')                    
+    script(src='./index.ts')

@@ -8,7 +8,6 @@ import template from './404.tmpl';
 class Page extends Block {
     constructor(props: Props) {
         super('div', props)
-        console.log(props)
     }
 
     render() {
