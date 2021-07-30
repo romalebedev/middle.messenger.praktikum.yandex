@@ -1,6 +1,6 @@
 export default `
 .avatar-block.flex
-    img(src="../../resources/avatar.png", alt="Аватар").avatar
+    img(src="https://via.placeholder.com/150", alt="Аватар").avatar
     span Имя
 form.form.flex    
     ul.user-block-list 
