@@ -66,7 +66,14 @@ const inputPassword = new Input({
     type: 'password',
     placeholder: 'Пароль',
     classNames: 'flex label',
-    name: 'password'
+    name: 'password',
+    events: {
+        input: (e: Event): string => {
+            const item = e.target as HTMLInputElement
+            console.log(item.value)
+            return item.value
+        }
+    }
 })
 
 renderDom('#root', page)
