@@ -1,9 +1,18 @@
 {
-    "extends": "stylelint-config-standard",
-    "rules": {
-      "color-hex-case": "lower"
-    },
-    "ignoreFiles": [
-      "dist/*"
-    ]
-  } 
+  "extends": "stylelint-config-standard",
+  "ignoreFiles": [
+    "dist/*"
+  ],
+  "plugins": [
+    "stylelint-scss"
+  ],
+  "rules": {
+    "at-rule-no-unknown": null,
+    "scss/at-rule-no-unknown": true,
+    "no-missing-end-of-source-newline": null,
+    "at-rule-empty-line-before": null,
+    "rule-empty-line-before": null,
+    "declaration-empty-line-before": null,
+    "no-descending-specificity": null
+  }
+}
