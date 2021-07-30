@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid';
 import EventBus from './event-bus';
 
 export default class Block {
@@ -12,8 +11,6 @@ export default class Block {
   _element: HTMLElement;
 
   _meta: { tagName: string, props: Props };
-
-  _id: string;
 
   props: Props;
 
@@ -33,9 +30,6 @@ export default class Block {
     this.props = this._makePropsProxy({ ...props });
 
     this.eventBus = () => eventBus;
-    this.key = uuid();
-
-    this._makeComponentsEntryPoints();
 
     this._registerEvents(eventBus);
     eventBus.emit(Block.EVENTS.INIT);
@@ -51,7 +45,7 @@ export default class Block {
   _createResources(): void {
     const { tagName } = this._meta;
     if (tagName) {
-        this._element = this._createDocumentElement(tagName);
+      this._element = this._createDocumentElement(tagName);
     }
   }
 
@@ -60,17 +54,17 @@ export default class Block {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
-  _makeComponentsEntryPoints(): void {
-    if (this.props.components) {
-      Object.entries(this.props.components).forEach(([componentName, componentValue]: [string, Block]) => {
-        if (Array.isArray(componentValue)) {
-          this.props[componentName] = componentValue.reduce((acc, val) => { acc.push(`<component data-key=${val.key}></component>`); return acc; }, []);
-        } else {
-          this.props[componentName] = `<component data-key=${componentValue.key}></component>`;
-        }
-      });
-    }
-  }
+  // _makeComponentsEntryPoints(): void {
+  //   if (this.props.components) {
+  //     Object.entries(this.props.components).forEach(([componentName, componentValue]: [string, Block]) => {
+  //       if (Array.isArray(componentValue)) {
+  //         this.props[componentName] = componentValue.reduce((acc, val) => { acc.push(`<component data-key=${val.key}></component>`); return acc; }, []);
+  //       } else {
+  //         this.props[componentName] = `<component data-key=${componentValue.key}></component>`;
+  //       }
+  //     });
+  //   }
+  // }
 
   _componentDidMount(): void {
     this.componentDidMount();
@@ -80,13 +74,8 @@ export default class Block {
   componentDidMount() {
   }
 
-  _componentDidUpdate() {
-    const res = this.componentDidUpdate();
-    if (!res) {
-      return;
-    }
-    this._makeComponentsEntryPoints();
-    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+  _componentDidUpdate(oldProps: Props, nextProps: Props) {
+    return oldProps !== nextProps;
   }
 
   componentDidUpdate(): boolean {
@@ -97,7 +86,12 @@ export default class Block {
     if (!nextProps) {
       return;
     }
-    Object.assign(this.props, nextProps);
+    if (this._componentDidUpdate(this.props, nextProps)) {
+      this._makePropsProxy(nextProps)
+      Object.assign(this.props, nextProps)
+      this.eventBus().emit(Block.EVENTS.FLOW_RENDER)
+    }
+
   };
 
   get element() {
@@ -108,30 +102,12 @@ export default class Block {
     this._removeEvents()
     this._element.innerHTML = this.render();
 
-    const {components, classNames} = this.props
-
-    if (components) {
-      Object.values(components).forEach((v: Block) => {
-        if (Array.isArray(v)) {
-          v.forEach((el) => {
-            const anchor:HTMLElement | null = this._element.querySelector(`[data-key="${el.key}"]`);
-            if (anchor && anchor.parentElement) {
-              anchor.parentElement.replaceChild(el.getContent(), anchor);
-            }
-          });
-        } else {
-          const anchor:HTMLElement | null = this._element.querySelector(`[data-key="${v.key}"]`);
-          if (anchor && anchor.parentElement) {
-            anchor.parentElement.replaceChild(v.getContent(), anchor);
-          }
-        }
-      });
-    }
+    const { classNames} = this.props
 
     if (classNames) {
-        classNames.split(' ').forEach((className: string) => {
-            this._element?.classList.add(className)
-        });
+      classNames.split(' ').forEach((className: string) => {
+        this._element?.classList.add(className)
+      });
     }
 
     this._addEvents();
@@ -140,35 +116,17 @@ export default class Block {
   _addEvents(): void {
     const { events = {} } = this.props;
 
-    if (events) {
-      Object.entries(events).forEach(([eventName, eventInfo]) => {
-        if (eventInfo.target) {
-          const target = this._element.querySelector(eventInfo.target);
-          if (target) {
-            target.addEventListener(eventName, eventInfo.handler.bind(this));
-          }
-        } else {
-          this._element.addEventListener(eventName, eventInfo.handler);
-        }
-      });
-    }
+    Object.keys(events).forEach(eventName => {
+      this._element.addEventListener(eventName, events[eventName]);
+    });
   }
 
   _removeEvents(): void {
     const { events = {} } = this.props;
 
-    if (events) {
-      Object.entries(events).forEach(([eventName, eventInfo]) => {
-        if (eventInfo.target) {
-          const target = this._element.querySelector(eventInfo.target);
-          if (target) {
-            target.removeEventListener(eventName, eventInfo.handler.bind(this));
-          }
-        } else {
-          this._element.removeEventListener(eventName, eventInfo.handler);
-        }
-      });
-    }
+    Object.keys(events).forEach(eventName => {
+      this._element.addEventListener(eventName, events[eventName]);
+    });
   }
 
   render(): string {
@@ -200,9 +158,6 @@ export default class Block {
 
   _createDocumentElement(tagName: string): HTMLElement {
     const el = document.createElement(tagName);
-    if (this._id) {
-      el.setAttribute('data-id', this._id);
-    }
     return el;
   }
 
@@ -216,13 +171,11 @@ export default class Block {
 }
 
 export type Props = {
-    events?: Record<string, Events>,
-    components?: Record<string, unknown>,
-    classNames?: string,
-    [key: string]: unknown
-  };
+  events?: Events,
+  classNames?: string,
+  [key: string]: unknown
+};
 
 export type Events = {
-  handler: (e: Event) => void,
-  target?: string
+  [key: string]: (e: Event) => void,
 };

@@ -21,21 +21,26 @@ class Page extends Block {
 const page: Page = new Page({
     classNames: 'container',
     events: {
-        submit: {
-            target: "form",
-            handler(e) {
-                e.preventDefault()
-                const email:HTMLInputElement | null = document.querySelector('input[name="email"]')
-                const password:HTMLInputElement | null = document.querySelector('input[name="password"]')
-                const isValidEmail = validate(email)
-                const isValidPassword = validate(password)
-                if (!isValidEmail) {
-                    inputEmail.setProps({status: "error"})
-                }
-                if (!isValidPassword) {
-                    inputPassword.setProps({status: "error"})
-                }
+        submit: (e: Event) => {
+            e.preventDefault()
+            const email:HTMLInputElement | null = document.querySelector('input[name="email"]')
+            const password:HTMLInputElement | null = document.querySelector('input[name="password"]')
+
+            const isValidEmail = validate(email)
+            const isValidPassword = validate(password)
+
+            if (!isValidEmail) {
+                inputEmail.setProps({status: "error"})
+            } else {
+                inputEmail.setProps({status: ""})
             }
+
+            if (!isValidPassword) {
+                inputPassword.setProps({status: "error"})
+            } else {
+                inputPassword.setProps({status: ""})
+            }
+
         }
     }
 })
@@ -49,6 +54,12 @@ const inputEmail = new Input({
     placeholder: 'Email',
     classNames: 'flex label',
     name: 'email',
+    events: {
+        input: (e: Event): string => {
+            const item = e.target as HTMLInputElement
+            return item.value
+        }
+    }
 })
 
 const inputPassword = new Input({
