@@ -4,23 +4,17 @@ export default `
 form.form.flex
     ul.user-block-list 
         li.user-block-item.list-item
-            span Почта
-            input(type="text" value="pochta@yandex.ru").input.change-input
+            span.margin Почта
         li.user-block-item.list-item
-            span Логин
-            input(type="text" value="Логин").input.change-input
+            span.margin Логин
         li.user-block-item.list-item
-            span Имя
-            input(type="text" value="Имя").input.change-input  
+            span.margin Имя
         li.user-block-item.list-item
-            span Фамилия
-            input(type="text" value="Фамилия").input.change-input
+            span.margin Фамилия
         li.user-block-item.list-item
-            span Имя в чате
-            input(type="text" value="Имя в чате").input.change-input
+            span.margin Имя в чате
         li.user-block-item.list-item
-            span Телефон
-            input(type="text" value="Телефон").input.change-input      
+            span.margin Телефон
 .wrapper-links.flex 
     a(href="../profile.html").link Вернуться назад 
-`
+`;

@@ -1,6 +1,6 @@
 export default `
 .avatar-block.flex
-    img(src="../../resources/profile.svg", alt="Аватар").avatar
+    img(src="../../resources/avatar.png", alt="Аватар").avatar
     span Имя
 form.form.flex    
     ul.user-block-list 
@@ -23,5 +23,6 @@ form.form.flex
             span Телефон
             span.input.change-input Телефон    
 .wrapper-links.flex 
+    a(href="./change-profile/change-profile.html").link Изменить данные 
     a(href="./change-password/change-password.html").link Изменить пароль 
-`
+`;
