@@ -7,7 +7,7 @@
     "build": "npm run clear && parcel build ./src/index.pug",
     "clear": "rm -rf dist",
     "eslint": "eslint './src/**/*.ts'",
-    "stylelint": "stylelint --syntax scss -- './src/**/*.scss'",
+    "stylelint": "stylelint './src/**/*.scss' --fix",
     "lint:fix": "npm run eslint -- --fix && npm run stylelint -- --fix"
   },
   "repository": {
