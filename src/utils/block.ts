@@ -97,7 +97,6 @@ export default class Block {
     if (!nextProps) {
       return;
     }
-
     Object.assign(this.props, nextProps);
   };
 
@@ -182,7 +181,6 @@ export default class Block {
 
   _makePropsProxy(props: Props) {
     const self = this;
-
     const propsProxy = new Proxy(props, {
       set(target: Props, p: string, value: unknown) {
         target[p] = value;
@@ -197,7 +195,6 @@ export default class Block {
         return typeof value === 'function' ? value.bind(self) : value;
       },
     });
-
     return propsProxy;
   }
 
@@ -225,7 +222,7 @@ export type Props = {
     [key: string]: unknown
   };
 
-type Events = {
+export type Events = {
   handler: (e: Event) => void,
   target?: string
 };

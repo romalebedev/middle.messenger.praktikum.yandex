@@ -1,5 +1,6 @@
 import Block from "../../utils/block";
 import { compile } from "pug";
+import template from './button.tmpl'
 import "./index.scss";
 
 export default class Button extends Block {
@@ -9,15 +10,11 @@ export default class Button extends Block {
 
   render() {
     const {text} = this.props
-    const component = compile(
-`
-=text
-`);
+    const component = compile(template);
     return component({text});
   }
 }
 
 type ButtonProps = {
   text?: string;
-  link?: string;
 };

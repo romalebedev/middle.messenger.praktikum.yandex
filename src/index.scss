@@ -21,14 +21,6 @@ body {
   align-items: center;
 }
 
-.input {
-  color: #fff;
-  background-color: $dark-color;
-  margin-bottom: 20px;
-  padding: 10px 100px 10px 10px;
-  border-radius: 10px;
-  border: 1px solid #2f2f2f;
-}
 
 .link {
   color: $purple-color;
@@ -48,4 +40,15 @@ body {
 .error {
   color: $error-color;
   font-size: 12px;
+  position: absolute;
+  left: 10px;
+  bottom: 0;
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
 }
