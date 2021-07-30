@@ -1,4 +1,4 @@
-[Ссылка на PR](https://github.com/romalebedev/middle.messenger.praktikum.yandex/pull/2)
+https://github.com/romalebedev/middle.messenger.praktikum.yandex/pull/2
 
 ## Ссылка на макет
 
