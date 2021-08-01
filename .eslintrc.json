@@ -1,9 +1,23 @@
 {
-    "extends": "xo",
     "parser": "@typescript-eslint/parser",
-    "plugins": ["@typescript-eslint"],
+    "parserOptions": {
+        "ecmaVersion": 2020,
+        "sourceType": "module"
+    },
+    "extends": [
+        "xo",
+        "plugin:@typescript-eslint/recommended",
+        "prettier",
+        "plugin:prettier/recommended"
+    ],
     "rules": {
-        "max-len": [2, 100],
-        "@typescript-eslint/no-unused-vars": 2
+        "no-negated-condition": 0,
+        "@typescript-eslint/no-this-alias": [
+            "error",
+            {
+                "allowDestructuring": false,
+                "allowedNames": ["self"]
+            }
+        ]
     }
 }

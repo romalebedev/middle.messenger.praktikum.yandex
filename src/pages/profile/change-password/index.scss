@@ -1,8 +1,10 @@
+@import "../../../styles/variables";
+
 .change-input {
   border: none;
   margin-bottom: 0;
   padding: 10px;
-  color: #fff;
+  color: $white-color;
 }
 
 .list-item {

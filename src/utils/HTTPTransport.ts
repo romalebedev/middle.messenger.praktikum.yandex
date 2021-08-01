@@ -8,15 +8,16 @@ enum METHOD {
 
 type Options = {
     method: string;
-    headers: object;
+    headers: Record<string, unknown>;
     data?: any;
 };
 
 function queryStringify(data: any) {
     const keys = Object.keys(data);
-    return keys.reduce((result, key, index) => (
-        `${result}${key}=${data[key]}${index < keys.length - 1 ? '&' : ''}`
-    ), '?');
+    return keys.reduce(
+        (result, key, index) => `${result}${key}=${data[key]}${index < keys.length - 1 ? '&' : ''}`,
+        '?',
+    );
 }
 
 export default class HTTPTransport {
@@ -28,17 +29,11 @@ export default class HTTPTransport {
         return this.request(queryUrl, { ...options, method: METHOD.GET });
     };
 
-    post = (url: string, options: Options) => (
-        this.request(url, { ...options, method: METHOD.POST })
-    );
+    post = (url: string, options: Options) => this.request(url, { ...options, method: METHOD.POST });
 
-    put = (url: string, options: Options) => (
-        this.request(url, { ...options, method: METHOD.PUT })
-    );
+    put = (url: string, options: Options) => this.request(url, { ...options, method: METHOD.PUT });
 
-    delete = (url: string, options: Options) => (
-        this.request(url, { ...options, method: METHOD.DELETE })
-    );
+    delete = (url: string, options: Options) => this.request(url, { ...options, method: METHOD.DELETE });
 
     request(url: string, options: Options, timeout = 5000): Promise<XMLHttpRequest> {
         const { method, data } = options;
