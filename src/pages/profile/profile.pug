@@ -1,32 +1,6 @@
 extends ../../components/layout/layout.pug
-include ../../components/button/button.pug
 
-block content  
-  .container
-    .avatar-block.flex
-      img(src="../../resources/profile.svg", alt="Аватар").avatar
-      span Имя
-    ul.user-block-list 
-        li.user-block-item.list-item
-          span Почта
-          span.input.change-input pochta@yandex.ru
-        li.user-block-item.list-item
-          span Логин
-          span.input.change-input Логин
-        li.user-block-item.list-item
-          span Имя
-          span.input.change-input Имя  
-        li.user-block-item.list-item
-          span Фамилия
-          span.input.change-input Фамилия
-        li.user-block-item.list-item
-          span Имя в чате
-          span.input.change-input Имя в чате
-        li.user-block-item.list-item
-          span Телефон
-          span.input.change-input Телефон    
-    .wrapper-links.flex 
-      +button("Изменить данные", "button") 
-      a(href="./change-password/change-password.pug").link Изменить пароль 
+block content
+    div#root
 block scripts
-    script(src='./index.js')                
+    script(src='./index.ts')

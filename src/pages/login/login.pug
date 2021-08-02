@@ -1,16 +1,6 @@
 extends ../../components/layout/layout.pug
-include ../../components/button/button.pug
 
-block content  
-    div.container
-        div.form-wrapper
-            h1 Вход
-            form.flex.form
-                input(type="text", placeholder="Логин").input
-                input(type="text", placeholder="Пароль").input
-                span.error неверный логин/пароль
-            div.wrapper-links
-                +button("Авторизоваться", "button")       
-                a(href="../registration/registration.pug").link Нет аккаунта?      
+block content 
+    div#root
 block scripts
-    script(src='./index.js')                            
+    script(src='./index.ts')                            

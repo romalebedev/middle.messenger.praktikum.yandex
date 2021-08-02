@@ -1,0 +1,15 @@
+@import "../../styles/variables.scss";
+
+.input {
+  color: #fff;
+  background-color: $dark-color;
+  margin-bottom: 20px;
+  padding: 10px 100px 10px 10px;
+  border-radius: 10px;
+  border: 1px solid $border-color;
+}
+
+.label {
+  position: relative;
+  margin-bottom: 10px;
+}

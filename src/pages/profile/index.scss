@@ -1,34 +1,40 @@
-.avatar {
-    cursor: pointer;
-    margin-bottom: 20px;
+@import "../../styles/variables";
 
-    &:hover {
-        opacity: .3;
-    }
+.avatar {
+  cursor: pointer;
+  margin-bottom: 20px;
+
+  &:hover {
+    opacity: 0.3;
+  }
 }
 
 .avatar-block {
-    margin-bottom: 100px;
-    color: #858585;
+  margin-bottom: 100px;
+  color: $gray-color;
 }
 
 .user-block-list {
-    list-style-type: none;
-    width: 400px;
+  list-style-type: none;
+  width: 400px;
+
+  span:first-child {
+    color: $gray-color;
+  }
 }
 
 .user-block-item {
-    border-bottom: 1px solid #2f2f2f;
-    margin-bottom: 20px;
-    padding-bottom: 5px;
-    display: flex;
-    justify-content: space-between;
+  border-bottom: 1px solid $border-color;
+  margin-bottom: 20px;
+  padding-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .user-data {
-    color: #858585;
+  color: $gray-color;
 }
 
 .margin {
-    margin-bottom: 30px;
+  margin-bottom: 30px;
 }

@@ -5,7 +5,9 @@
   "scripts": {
     "start": "npm run clear && parcel ./src/index.pug --port 3000",
     "build": "npm run clear && parcel build ./src/index.pug",
-    "clear": "rm -rf dist"
+    "clear": "rimraf dist",
+    "stylelint": "stylelint './src/**/*.scss' --fix",
+    "eslint": "eslint '*/**/*.{js,ts}' --quiet --fix"
   },
   "repository": {
     "type": "git",
@@ -18,12 +20,29 @@
     "url": "https://github.com/romalebedev/middle.messenger.praktikum.yandex/issues"
   },
   "homepage": "https://github.com/romalebedev/middle.messenger.praktikum.yandex#readme",
-  "dependencies": {},
+  "dependencies": {
+    "rimraf": "^3.0.2",
+    "uuid": "^8.3.2"
+  },
   "devDependencies": {
     "@parcel/transformer-pug": "^2.0.0-beta.2",
     "@parcel/transformer-sass": "^2.0.0-beta.2",
+    "@types/pug": "^2.0.5",
+    "@types/uuid": "^8.3.1",
+    "@typescript-eslint/eslint-plugin": "^4.28.4",
+    "@typescript-eslint/parser": "^4.28.4",
+    "eslint": "^7.31.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-xo": "^0.37.0",
+    "eslint-plugin-prettier": "^3.4.0",
     "parcel": "^2.0.0-beta.2",
+    "prettier": "^2.3.2",
     "pug": "^3.0.2",
-    "sass": "^1.35.2"
+    "sass": "^1.35.2",
+    "stylelint": "^13.13.1",
+    "stylelint-config-standard": "^22.0.0",
+    "stylelint-scss": "^3.20.1",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
   }
 }
