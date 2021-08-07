@@ -16,6 +16,7 @@ enum InputTypes {
     chatName = 'chatName',
     newPassword = 'newPassword',
     oldPassword = 'oldPassword',
+    search = 'search',
 }
 
 export const validate = (input: HTMLInputElement | null) => {
@@ -41,6 +42,8 @@ export const validate = (input: HTMLInputElement | null) => {
         case InputTypes.login:
         case InputTypes.chatName:
             return loginRegexp.test(value);
+        case InputTypes.search:
+            return true;
         default:
             return false;
     }
