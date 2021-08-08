@@ -15,7 +15,14 @@ export default class ChatItem extends Block {
             status: props.status,
             events: {
                 ...props.events,
-                // Todo add events
+                click: () => {
+                    const noSelectedblock = document.querySelector('.no-selected-chat-block');
+                    const selectedBlock = document.querySelector('.selected-chat-block');
+                    if (noSelectedblock && selectedBlock) {
+                        this.hide(noSelectedblock);
+                        this.show(selectedBlock);
+                    }
+                },
             },
         });
     }

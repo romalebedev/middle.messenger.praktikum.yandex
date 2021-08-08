@@ -28,6 +28,13 @@ const inputSearch = new Input({
     name: 'search',
 });
 
+const inputMessage = new Input({
+    type: 'text',
+    placeholder: 'Сообщение',
+    classNames: 'flex label',
+    name: 'message',
+});
+
 const chatItem = new ChatItem({
     avatar: 'https://via.placeholder.com/150',
     name: 'Иван',
@@ -49,5 +56,6 @@ const chatItem2 = new ChatItem({
 
 renderDom('#root', page);
 renderDom('.chatlist-header', inputSearch);
+renderDom('.footer', inputMessage);
 renderDom('.chats-list', chatItem);
 renderDom('.chats-list', chatItem2);
