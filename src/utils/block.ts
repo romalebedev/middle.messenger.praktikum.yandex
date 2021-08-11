@@ -162,12 +162,12 @@ export default class Block {
         return el;
     }
 
-    show(): void {
-        this.getContent().style.display = 'block';
+    show(element: Element): void {
+        element.classList.add('show');
     }
 
-    hide(): void {
-        this.getContent().style.display = 'none';
+    hide(element: Element): void {
+        element.classList.add('hide');
     }
 }
 

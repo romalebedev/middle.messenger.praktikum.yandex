@@ -37,7 +37,7 @@ const page: Page = new Page({
             const isValidSecondName = validate(secondName);
             const isValidTel = validate(tel);
             const isValidChatName = validate(chatName);
-            
+
             inputEmail.setProps(setStatus(isValidEmail));
             inputChatName.setProps(setStatus(isValidChatName));
             inputLogin.setProps(setStatus(isValidLogin));
