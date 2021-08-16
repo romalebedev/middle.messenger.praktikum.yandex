@@ -14,7 +14,6 @@ export default class Input extends Block {
             status: props.status,
             classNames: props.classNames,
             events: {
-                ...props.events,
                 focusout: (e: Event) => {
                     const element = e.target as HTMLInputElement;
                     this.props.value = element.value;
@@ -25,10 +24,12 @@ export default class Input extends Block {
         });
     }
 
-    render() {
+    render(): HTMLElement {
         const { type, placeholder, name, status, value } = this.props;
-        const component = compile(template);
-        return component({ type, placeholder, name, status, value });
+        const component = compile(template)({ type, placeholder, name, status, value });
+        const layout = document.createElement('div');
+        layout.innerHTML = component;
+        return layout as HTMLElement;
     }
 }
 

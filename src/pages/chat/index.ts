@@ -1,5 +1,6 @@
 import '../../index.scss';
 import './index.scss';
+import '../../index';
 import { compile } from 'pug';
 import Block, { Props } from '../../utils/block';
 import template from './chat.tmpl';
@@ -7,19 +8,15 @@ import { renderDom } from '../../utils/render-DOM';
 import Input from '../../components/input';
 import ChatItem from '../../components/chat-item';
 
-class Page extends Block {
-    constructor(props: Props) {
-        super('div', props);
+export class ChatPage extends Block {
+    constructor() {
+        super('div', { classNames: 'chat-container' });
     }
 
-    render() {
-        return compile(template, {})(this.props);
+    render(): string {
+        return compile(template, {})();
     }
 }
-
-const page: Page = new Page({
-    classNames: 'chat-container',
-});
 
 const inputSearch = new Input({
     type: 'text',
@@ -54,7 +51,6 @@ const chatItem2 = new ChatItem({
     status: 'unread',
 });
 
-renderDom('#root', page);
 renderDom('.chatlist-header', inputSearch);
 renderDom('.footer', inputMessage);
 renderDom('.chats-list', chatItem);

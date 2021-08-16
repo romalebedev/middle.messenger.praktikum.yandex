@@ -24,6 +24,7 @@ body {
 .link {
   color: $purple-color;
   margin-bottom: 20px;
+  cursor: pointer;
 
   &:last-child {
     margin-bottom: 0;

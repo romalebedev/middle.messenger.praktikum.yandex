@@ -14,8 +14,6 @@ export default class Block {
 
     props: Props;
 
-    rawHTML: string;
-
     key: string;
 
     eventBus: () => EventBus;
@@ -30,7 +28,6 @@ export default class Block {
         this.props = this._makePropsProxy({ ...props });
 
         this.eventBus = () => eventBus;
-
         this._registerEvents(eventBus);
         eventBus.emit(Block.EVENTS.INIT);
     }
@@ -54,28 +51,15 @@ export default class Block {
         this.eventBus().emit(Block.EVENTS.FLOW_CDM);
     }
 
-    // _makeComponentsEntryPoints(): void {
-    //   if (this.props.components) {
-    //     Object.entries(this.props.components).forEach(([componentName, componentValue]: [string, Block]) => {
-    //       if (Array.isArray(componentValue)) {
-    //         this.props[componentName] = componentValue.reduce((acc, val) => { acc.push(`<component data-key=${val.key}></component>`); return acc; }, []);
-    //       } else {
-    //         this.props[componentName] = `<component data-key=${componentValue.key}></component>`;
-    //       }
-    //     });
-    //   }
-    // }
-
     _componentDidMount(): void {
         this.componentDidMount();
         this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     }
 
-    componentDidMount() {
-        //
-    }
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    componentDidMount(): void {}
 
-    _componentDidUpdate(oldProps: Props, nextProps: Props) {
+    _componentDidUpdate(oldProps: Props, nextProps: Props): boolean {
         return oldProps !== nextProps;
     }
 
@@ -95,13 +79,14 @@ export default class Block {
         }
     };
 
-    get element() {
+    get element(): HTMLElement {
         return this._element;
     }
 
-    _render(): void {
+    private _render(): void {
+        const block = this.render();
         this._removeEvents();
-        this._element.innerHTML = this.render();
+        const el = block as unknown as Element;
 
         const { classNames } = this.props;
 
@@ -111,34 +96,43 @@ export default class Block {
             });
         }
 
-        this._addEvents();
+        if (this._element && el) {
+            this._element.innerHTML = '';
+
+            if (el.childNodes !== undefined) {
+                const children = Array.prototype.slice.call(el.childNodes);
+                children.forEach((item: Element) => {
+                    this._element.appendChild(item);
+                });
+            }
+
+            this._addEvents();
+        }
     }
 
-    _addEvents(): void {
+    private _addEvents(): void {
         const { events = {} } = this.props;
 
-        Object.keys(events).forEach((eventName) => {
-            this._element.addEventListener(eventName, events[eventName]);
+        Object.keys(events).forEach((eventName: string) => {
+            this.element?.addEventListener(eventName, events[eventName]);
         });
     }
 
-    _removeEvents(): void {
+    private _removeEvents() {
         const { events = {} } = this.props;
 
         Object.keys(events).forEach((eventName) => {
-            this._element.addEventListener(eventName, events[eventName]);
+            this.element?.removeEventListener(eventName, events[eventName]);
         });
     }
 
-    render(): string {
-        return '';
-    }
+    render(): void {}
 
     getContent(): HTMLElement {
         return this.element;
     }
 
-    _makePropsProxy(props: Props) {
+    _makePropsProxy(props: Props): Props {
         const self = this;
         const propsProxy = new Proxy(props, {
             set(target: Props, p: string, value: unknown) {
@@ -162,12 +156,20 @@ export default class Block {
         return el;
     }
 
-    show(element: Element): void {
+    showElement(element: Element | any): void {
         element.classList.add('show');
     }
 
-    hide(element: Element): void {
+    hideElement(element: Element): void {
         element.classList.add('hide');
+    }
+
+    hide(): void {
+        this.getContent().style.display = 'none';
+    }
+
+    show(): void {
+        this.getContent().style.display = 'flex';
     }
 }
 
@@ -175,6 +177,7 @@ export type Props = {
     events?: Events;
     classNames?: string;
     [key: string]: unknown;
+    children?: Record<string, unknown>;
 };
 
 export type Events = {

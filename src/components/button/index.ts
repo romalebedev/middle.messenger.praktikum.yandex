@@ -8,10 +8,12 @@ export default class Button extends Block {
         super('button', props);
     }
 
-    render() {
+    render(): HTMLElement {
         const { text } = this.props;
-        const component = compile(template);
-        return component({ text });
+        const component = compile(template)({ text });
+        const layout = document.createElement('button');
+        layout.innerHTML = component;
+        return layout as HTMLElement;
     }
 }
 

@@ -69,25 +69,6 @@ const button = new Button({
     text: 'Сохранить',
 });
 
-// Li.user-block-item.list-item
-// span Почта
-// input(type="text" value="pochta@yandex.ru").input.change-input
-// li.user-block-item.list-item
-// span Логин
-// input(type="text" value="Логин").input.change-input
-// li.user-block-item.list-item
-// span Имя
-// input(type="text" value="Имя").input.change-input
-// li.user-block-item.list-item
-// span Фамилия
-// input(type="text" value="Фамилия").input.change-input
-// li.user-block-item.list-item
-// span Имя в чате
-// input(type="text" value="Имя в чате").input.change-input
-// li.user-block-item.list-item
-// span Телефон
-// input(type="text" value="Телефон").input.change-input
-
 const inputEmail = new Input({
     type: 'email',
     placeholder: 'Email',

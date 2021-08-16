@@ -1,7 +1,6 @@
 import Block from './block';
 
-export function renderDom(query: string, block: Block) {
+export function renderDom(query: string, block: Block | null): HTMLElement | null {
     const root: HTMLElement | null = document.querySelector(query);
-
-    return root && root.appendChild(block.getContent());
+    return block && root && root.appendChild(block.getContent());
 }

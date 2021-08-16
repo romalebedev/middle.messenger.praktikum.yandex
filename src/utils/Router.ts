@@ -1,0 +1,125 @@
+import Block from './block';
+import { renderDom } from './render-DOM';
+
+function isEqual(lhs: string, rhs: string) {
+    return lhs === rhs;
+}
+
+export class Route {
+    private _pathname: string;
+    private _blockClass: any;
+    private _block: Block | null;
+    private _props: Record<string, any>;
+
+    constructor(pathname: string, view: any, props: Record<string, unknown>) {
+        this._pathname = pathname;
+        this._blockClass = view;
+        this._block = null;
+        this._props = props;
+        // console.log('this._pathname', this._pathname);
+        // console.log('this._blockClass', this._blockClass);
+        // console.log('this._props', this._props);
+    }
+
+    navigate(pathname: string): void {
+        if (this.match(pathname)) {
+            this._pathname = pathname;
+            this.render();
+        }
+    }
+
+    leave(): void {
+        if (this._block) {
+            // Todo hide method working?
+            this._block.hide();
+        }
+    }
+
+    match(pathname: string): boolean {
+        return isEqual(pathname, this._pathname);
+    }
+
+    render(): void {
+        //     This._block = new this._blockClass();
+        //     console.log(this._block);
+        //     renderDom(this._props.rootQuery, this._block);
+        // }
+        // if (!this._block) {
+        this._block = new this._blockClass();
+        renderDom(this._props.rootQuery, this._block);
+        // Return;
+        // }
+
+        // this._block.show();
+    }
+}
+
+export class Router {
+    private static __instance: Router;
+    private routes: Route[] | undefined;
+    private history: History | undefined;
+    private _currentRoute: Route | null | undefined;
+    private _rootQuery: string | undefined;
+
+    constructor(rootQuery: string) {
+        if (Router.__instance) {
+            // eslint-disable-next-line no-constructor-return
+            return Router.__instance;
+        }
+
+        this.routes = [];
+        this.history = window.history;
+        this._currentRoute = null;
+        this._rootQuery = rootQuery;
+
+        Router.__instance = this;
+    }
+
+    use(pathname: string, block: Block): this {
+        const route = new Route(pathname, block, { rootQuery: this._rootQuery });
+        this.routes?.push(route);
+        // console.log("this.routes", this.routes);
+        return this;
+    }
+
+    start(): void {
+        window.onpopstate = ((event: Event) => {
+            this._onRoute(event.currentTarget?.location.pathname);
+            // eslint-disable-next-line no-extra-bind
+        }).bind(this);
+
+        this._onRoute(window.location.pathname);
+        // console.log(this.routes);
+    }
+
+    _onRoute(pathname: string): void {
+        const route = this.getRoute(pathname);
+        if (!route) {
+            return;
+        }
+
+        if (this._currentRoute && this._currentRoute !== route) {
+            this._currentRoute.leave();
+        }
+
+        this._currentRoute = route;
+        route.render();
+    }
+
+    go(pathname: string): void {
+        this.history?.pushState({}, '', pathname);
+        this._onRoute(pathname);
+    }
+
+    back(): void {
+        this.history?.back();
+    }
+
+    forward(): void {
+        this.history?.forward();
+    }
+
+    getRoute(pathname: string): Route | undefined {
+        return this.routes?.find((route) => route.match(pathname));
+    }
+}
