@@ -16,9 +16,6 @@ export class Route {
         this._blockClass = view;
         this._block = null;
         this._props = props;
-        // console.log('this._pathname', this._pathname);
-        // console.log('this._blockClass', this._blockClass);
-        // console.log('this._props', this._props);
     }
 
     navigate(pathname: string): void {
@@ -29,10 +26,13 @@ export class Route {
     }
 
     leave(): void {
-        if (this._block) {
-            // Todo hide method working?
-            this._block.hide();
+        const root = document.querySelector(this._props.rootQuery);
+
+        if (root) {
+            root.removeChild(this._block?.element);
         }
+
+        this._block = null;
     }
 
     match(pathname: string): boolean {
@@ -40,17 +40,8 @@ export class Route {
     }
 
     render(): void {
-        //     This._block = new this._blockClass();
-        //     console.log(this._block);
-        //     renderDom(this._props.rootQuery, this._block);
-        // }
-        // if (!this._block) {
         this._block = new this._blockClass();
         renderDom(this._props.rootQuery, this._block);
-        // Return;
-        // }
-
-        // this._block.show();
     }
 }
 
@@ -78,7 +69,7 @@ export class Router {
     use(pathname: string, block: Block): this {
         const route = new Route(pathname, block, { rootQuery: this._rootQuery });
         this.routes?.push(route);
-        // console.log("this.routes", this.routes);
+        // Console.log("this.routes", this.routes);
         return this;
     }
 
@@ -89,7 +80,6 @@ export class Router {
         }).bind(this);
 
         this._onRoute(window.location.pathname);
-        // console.log(this.routes);
     }
 
     _onRoute(pathname: string): void {

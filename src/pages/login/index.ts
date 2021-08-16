@@ -84,7 +84,6 @@ export class LoginPage extends Block {
 
         setTimeout(() => {
             const link = document.querySelector('a');
-            console.log(link);
             link?.addEventListener('click', () => {
                 router.go('/sign-up');
             });

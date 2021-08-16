@@ -126,6 +126,7 @@ export default class Block {
         });
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     render(): void {}
 
     getContent(): HTMLElement {
@@ -177,7 +178,7 @@ export type Props = {
     events?: Events;
     classNames?: string;
     [key: string]: unknown;
-    children?: Record<string, unknown>;
+    children?: Record<string, Block>;
 };
 
 export type Events = {
