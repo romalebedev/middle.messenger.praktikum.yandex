@@ -1,7 +1,7 @@
 export default `
 .chatlist-container
     .chatlist-header.flex
-        a(href="../profile/profile.html").link.chat-link Профиль
+        a.link.chat-link Профиль
     ul.chats-list    
 .chats-container
     .no-selected-chat-block

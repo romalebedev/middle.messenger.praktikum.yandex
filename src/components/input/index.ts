@@ -25,8 +25,7 @@ export default class Input extends Block {
     }
 
     render(): HTMLElement {
-        const { type, placeholder, name, status, value } = this.props;
-        const component = compile(template)({ type, placeholder, name, status, value });
+        const component = compile(template)(this.props);
         const layout = document.createElement('div');
         layout.innerHTML = component;
         return layout as HTMLElement;

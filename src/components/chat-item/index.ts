@@ -27,10 +27,11 @@ export default class ChatItem extends Block {
         });
     }
 
-    render() {
-        const { avatar, name, message, time, classNames, status } = this.props;
-        const component = compile(template);
-        return component({ avatar, name, message, time, classNames, status });
+    render(): HTMLElement {
+        const component = compile(template)(this.props);
+        const layout = document.createElement('div');
+        layout.innerHTML = component;
+        return layout as HTMLElement;
     }
 }
 

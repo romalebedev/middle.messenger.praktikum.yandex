@@ -1,95 +1,107 @@
 import '../../../index.scss';
 import './index.scss';
 import { compile } from 'pug';
-import Block, { Props } from '../../../utils/block';
-import { renderDom } from '../../../utils/render-DOM';
+import Block from '../../../utils/block';
 import template from './change-password.tmpl';
 import Button from '../../../components/button';
 import Input from '../../../components/input';
 import { checkForPasswordMatch, validate } from '../../../utils/validate';
 import { setStatus } from '../../../utils/set-status';
+import { router } from '../../..';
 
-class Page extends Block {
-    constructor(props: Props) {
-        super('div', props);
+export class ChagePasswordPage extends Block {
+    constructor() {
+        super('div', {
+            classNames: 'container',
+            events: {
+                submit: (e: Event) => {
+                    e.preventDefault();
+                    const oldPassword: HTMLInputElement | null = document.querySelector('input[name="password"]');
+                    const newPassword: HTMLInputElement | null = document.querySelector('input[name="newPassword"]');
+                    const passwordRepeat: HTMLInputElement | null =
+                        document.querySelector('input[name="passwordRepeat"]');
+
+                    const isValidOldPassword = validate(oldPassword);
+                    const isValidNewPassword = validate(newPassword);
+                    const isValidPasswordRepeat = validate(passwordRepeat);
+                    const isPasswordsMatch = checkForPasswordMatch(newPassword, passwordRepeat);
+
+                    this.props.children?.inputNewPassword.setProps(setStatus(isValidNewPassword));
+                    this.props.children?.inputOldPassword.setProps(setStatus(isValidOldPassword));
+                    this.props.children?.inputPasswordRepeat.setProps(setStatus(isValidPasswordRepeat));
+                    this.props.children?.inputPasswordRepeat.setProps(setStatus(isPasswordsMatch));
+
+                    const isAllFieldsValid =
+                        isValidOldPassword && isValidNewPassword && isValidPasswordRepeat && isPasswordsMatch;
+
+                    if (isAllFieldsValid) {
+                        console.log('Пароль успешно изменен!');
+                    }
+                },
+            },
+            children: {
+                inputOldPassword: new Input({
+                    type: 'password',
+                    classNames: 'flex label',
+                    name: 'password',
+                    events: {
+                        input: (e: Event): string => {
+                            const item = e.target as HTMLInputElement;
+                            return item.value;
+                        },
+                    },
+                }),
+                inputNewPassword: new Input({
+                    type: 'password',
+                    classNames: 'flex label',
+                    name: 'newPassword',
+                    events: {
+                        input: (e: Event): string => {
+                            const item = e.target as HTMLInputElement;
+                            return item.value;
+                        },
+                    },
+                }),
+                inputPasswordRepeat: new Input({
+                    type: 'password',
+                    classNames: 'flex label',
+                    name: 'passwordRepeat',
+                    events: {
+                        input: (e: Event): string => {
+                            const item = e.target as HTMLInputElement;
+                            return item.value;
+                        },
+                    },
+                }),
+                button: new Button({
+                    text: 'Сохранить',
+                }),
+            },
+        });
     }
 
-    render() {
-        return compile(template, {})(this.props);
+    render(): HTMLElement {
+        const { children } = this.props;
+        const component = compile(template, {})();
+        const layout = document.createElement('div');
+        layout.innerHTML = component;
+        const userBlockItem = layout.querySelectorAll('.user-block-item');
+        if (children) {
+            Object.keys(children).forEach((key, i) => {
+                if (key !== 'button') {
+                    userBlockItem[i]?.appendChild(children[key].getContent());
+                }
+            });
+            layout.querySelector('.form')?.appendChild(children.button.getContent());
+        }
+
+        setTimeout(() => {
+            const link = document.querySelector('a');
+            link?.addEventListener('click', () => {
+                router.go('/profile');
+            });
+        }, 0);
+
+        return layout;
     }
 }
-
-const page: Page = new Page({
-    classNames: 'container',
-    events: {
-        submit: (e: Event) => {
-            e.preventDefault();
-            const oldPassword: HTMLInputElement | null = document.querySelector('input[name="password"]');
-            const newPassword: HTMLInputElement | null = document.querySelector('input[name="newPassword"]');
-            const passwordRepeat: HTMLInputElement | null = document.querySelector('input[name="passwordRepeat"]');
-
-            const isValidOldPassword = validate(oldPassword);
-            const isValidNewPassword = validate(newPassword);
-            const isValidPasswordRepeat = validate(passwordRepeat);
-            const isPasswordsMatch = checkForPasswordMatch(newPassword, passwordRepeat);
-
-            inputOldPassword.setProps(setStatus(isValidOldPassword));
-            inputNewPassword.setProps(setStatus(isValidNewPassword));
-            inputPasswordRepeat.setProps(setStatus(isValidPasswordRepeat));
-            inputPasswordRepeat.setProps(setStatus(isPasswordsMatch));
-
-            const isAllFieldsValid =
-                isValidOldPassword && isValidNewPassword && isValidPasswordRepeat && isPasswordsMatch;
-
-            if (isAllFieldsValid) {
-                console.log('Пароль успешно изменен!');
-            }
-        },
-    },
-});
-
-const button = new Button({
-    text: 'Сохранить',
-});
-
-const inputOldPassword = new Input({
-    type: 'password',
-    classNames: 'flex label',
-    name: 'password',
-    events: {
-        input: (e: Event): string => {
-            const item = e.target as HTMLInputElement;
-            return item.value;
-        },
-    },
-});
-
-const inputNewPassword = new Input({
-    type: 'password',
-    classNames: 'flex label',
-    name: 'newPassword',
-    events: {
-        input: (e: Event): string => {
-            const item = e.target as HTMLInputElement;
-            return item.value;
-        },
-    },
-});
-
-const inputPasswordRepeat = new Input({
-    type: 'password',
-    classNames: 'flex label',
-    name: 'passwordRepeat',
-    events: {
-        input: (e: Event): string => {
-            const item = e.target as HTMLInputElement;
-            return item.value;
-        },
-    },
-});
-
-renderDom('#root', page);
-renderDom('.list-item', inputOldPassword);
-renderDom('.list-item:nth-child(2)', inputNewPassword);
-renderDom('.list-item:nth-child(3)', inputPasswordRepeat);
-renderDom('.form', button);

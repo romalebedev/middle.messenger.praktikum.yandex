@@ -23,6 +23,6 @@ form.form.flex
             span Телефон
             span.input.change-input Телефон    
 .wrapper-links.flex 
-    a(href="./change-profile/change-profile.html").link Изменить данные 
-    a(href="./change-password/change-password.html").link Изменить пароль 
+    a.link Изменить данные 
+    a.link Изменить пароль 
 `;

@@ -1,56 +1,53 @@
 import '../../../index.scss';
 import './index.scss';
 import { compile } from 'pug';
-import Block, { Props } from '../../../utils/block';
-import { renderDom } from '../../../utils/render-DOM';
+import Block from '../../../utils/block';
 import template from './change-profile.tmpl';
 import Button from '../../../components/button';
 import Input from '../../../components/input';
 import { validate } from '../../../utils/validate';
 import { setStatus } from '../../../utils/set-status';
+import { router } from '../../..';
 
-class Page extends Block {
-    constructor(props: Props) {
-        super('div', props);
-    }
+export class SettingsPage extends Block {
+    constructor() {
+        super('div', {
+            classNames: 'container',
+            events: {
+                submit: (e: Event) => {
+                    e.preventDefault();
+                    const email: HTMLInputElement | null = document.querySelector('input[name="email"]');
+                    const login: HTMLInputElement | null = document.querySelector('input[name="login"]');
+                    const name: HTMLInputElement | null = document.querySelector('input[name="name"]');
+                    const chatName: HTMLInputElement | null = document.querySelector('input[name="chatName"]');
+                    const secondName: HTMLInputElement | null = document.querySelector('input[name="secondName"]');
+                    const tel: HTMLInputElement | null = document.querySelector('input[name="tel"]');
 
-    render() {
-        return compile(template, {})(this.props);
-    }
-}
+                    const isValidEmail = validate(email);
+                    const isValidLogin = validate(login);
+                    const isValidName = validate(name);
+                    const isValidSecondName = validate(secondName);
+                    const isValidTel = validate(tel);
+                    const isValidChatName = validate(chatName);
 
-const page: Page = new Page({
-    classNames: 'container',
-    events: {
-        submit: (e: Event) => {
-            e.preventDefault();
-            const email: HTMLInputElement | null = document.querySelector('input[name="email"]');
-            const login: HTMLInputElement | null = document.querySelector('input[name="login"]');
-            const name: HTMLInputElement | null = document.querySelector('input[name="name"]');
-            const chatName: HTMLInputElement | null = document.querySelector('input[name="chatName"]');
-            const secondName: HTMLInputElement | null = document.querySelector('input[name="secondName"]');
-            const tel: HTMLInputElement | null = document.querySelector('input[name="tel"]');
+                    this.props.children?.inputEmail.setProps(setStatus(isValidEmail));
+                    this.props.children?.inputChatName.setProps(setStatus(isValidChatName));
+                    this.props.children?.inputLogin.setProps(setStatus(isValidLogin));
+                    this.props.children?.inputName.setProps(setStatus(isValidName));
+                    this.props.children?.inputSecondName.setProps(setStatus(isValidSecondName));
+                    this.props.children?.inputTel.setProps(setStatus(isValidTel));
 
-            const isValidEmail = validate(email);
-            const isValidLogin = validate(login);
-            const isValidName = validate(name);
-            const isValidSecondName = validate(secondName);
-            const isValidTel = validate(tel);
-            const isValidChatName = validate(chatName);
+                    const isAllFieldsValid =
+                        isValidEmail &&
+                        isValidChatName &&
+                        isValidLogin &&
+                        isValidName &&
+                        isValidSecondName &&
+                        isValidTel;
 
-            inputEmail.setProps(setStatus(isValidEmail));
-            inputChatName.setProps(setStatus(isValidChatName));
-            inputLogin.setProps(setStatus(isValidLogin));
-            inputName.setProps(setStatus(isValidName));
-            inputSecondName.setProps(setStatus(isValidSecondName));
-            inputTel.setProps(setStatus(isValidTel));
-
-            const isAllFieldsValid =
-                isValidEmail && isValidChatName && isValidLogin && isValidName && isValidSecondName && isValidTel;
-
-            if (isAllFieldsValid) {
-                console.log(
-                    `
+                    if (isAllFieldsValid) {
+                        console.log(
+                            `
     Данные успешно сохранены:
     email: ${email?.value}
     login: ${login?.value}
@@ -59,105 +56,118 @@ const page: Page = new Page({
     chatName: ${chatName?.value}
     tel: ${tel?.value}
     `,
-                );
-            }
-        },
-    },
-});
+                        );
+                    }
+                },
+            },
+            children: {
+                inputEmail: new Input({
+                    type: 'email',
+                    placeholder: 'Email',
+                    classNames: 'flex label',
+                    name: 'email',
+                    value: 'pochta@gmail.com',
+                    events: {
+                        input: (e: Event): string => {
+                            const item = e.target as HTMLInputElement;
+                            return item.value;
+                        },
+                    },
+                }),
+                inputLogin: new Input({
+                    type: 'text',
+                    placeholder: 'Логин',
+                    classNames: 'flex label',
+                    name: 'login',
+                    value: 'ivan777',
+                    events: {
+                        input: (e: Event): string => {
+                            const item = e.target as HTMLInputElement;
+                            return item.value;
+                        },
+                    },
+                }),
+                inputName: new Input({
+                    type: 'text',
+                    placeholder: 'Имя',
+                    classNames: 'flex label',
+                    name: 'name',
+                    value: 'Иван',
+                    events: {
+                        input: (e: Event): string => {
+                            const item = e.target as HTMLInputElement;
+                            return item.value;
+                        },
+                    },
+                }),
+                inputSecondName: new Input({
+                    type: 'text',
+                    placeholder: 'Фамилия',
+                    classNames: 'flex label',
+                    name: 'secondName',
+                    value: 'Иванов',
+                    events: {
+                        input: (e: Event): string => {
+                            const item = e.target as HTMLInputElement;
+                            return item.value;
+                        },
+                    },
+                }),
+                inputChatName: new Input({
+                    type: 'text',
+                    placeholder: 'Имя в чате',
+                    classNames: 'flex label',
+                    name: 'chatName',
+                    value: 'ivan777',
+                    events: {
+                        input: (e: Event): string => {
+                            const item = e.target as HTMLInputElement;
+                            return item.value;
+                        },
+                    },
+                }),
+                inputTel: new Input({
+                    type: 'tel',
+                    placeholder: 'Номер телефона',
+                    classNames: 'flex label',
+                    name: 'tel',
+                    value: '89999999999',
+                    events: {
+                        input: (e: Event): string => {
+                            const item = e.target as HTMLInputElement;
+                            return item.value;
+                        },
+                    },
+                }),
+                button: new Button({
+                    text: 'Сохранить',
+                }),
+            },
+        });
+    }
 
-const button = new Button({
-    text: 'Сохранить',
-});
+    render(): HTMLElement {
+        const { children } = this.props;
+        const component = compile(template, {})();
+        const layout = document.createElement('div');
+        layout.innerHTML = component;
+        const userBlockItem = layout.querySelectorAll('.user-block-item');
+        if (children) {
+            Object.keys(children).forEach((key, i) => {
+                if (key !== 'button') {
+                    userBlockItem[i]?.appendChild(children[key].getContent());
+                }
+            });
+            layout.querySelector('.form')?.appendChild(children.button.getContent());
+        }
 
-const inputEmail = new Input({
-    type: 'email',
-    placeholder: 'Email',
-    classNames: 'flex label',
-    name: 'email',
-    value: 'pochta@gmail.com',
-    events: {
-        input: (e: Event): string => {
-            const item = e.target as HTMLInputElement;
-            return item.value;
-        },
-    },
-});
+        setTimeout(() => {
+            const link = document.querySelector('a');
+            link?.addEventListener('click', () => {
+                router.go('/profile');
+            });
+        }, 0);
 
-const inputLogin = new Input({
-    type: 'text',
-    placeholder: 'Логин',
-    classNames: 'flex label',
-    name: 'login',
-    value: 'ivan777',
-    events: {
-        input: (e: Event): string => {
-            const item = e.target as HTMLInputElement;
-            return item.value;
-        },
-    },
-});
-
-const inputName = new Input({
-    type: 'text',
-    placeholder: 'Имя',
-    classNames: 'flex label',
-    name: 'name',
-    value: 'Иван',
-    events: {
-        input: (e: Event): string => {
-            const item = e.target as HTMLInputElement;
-            return item.value;
-        },
-    },
-});
-
-const inputSecondName = new Input({
-    type: 'text',
-    placeholder: 'Фамилия',
-    classNames: 'flex label',
-    name: 'secondName',
-    value: 'Иванов',
-    events: {
-        input: (e: Event): string => {
-            const item = e.target as HTMLInputElement;
-            return item.value;
-        },
-    },
-});
-
-const inputChatName = new Input({
-    type: 'text',
-    placeholder: 'Имя в чате',
-    classNames: 'flex label',
-    name: 'chatName',
-    value: 'ivan777',
-    events: {
-        input: (e: Event): string => {
-            const item = e.target as HTMLInputElement;
-            return item.value;
-        },
-    },
-});
-
-const inputTel = new Input({
-    type: 'tel',
-    placeholder: 'Номер телефона',
-    classNames: 'flex label',
-    name: 'tel',
-    value: '89999999999',
-    events: {
-        input: (e: Event): string => {
-            const item = e.target as HTMLInputElement;
-            return item.value;
-        },
-    },
-});
-
-renderDom('#root', page);
-renderDom('.list-item', inputEmail);
-renderDom('.list-item:nth-child(2)', inputLogin);
-renderDom('.list-item:nth-child(3)', inputName);
-renderDom('.list-item:nth-child(4)', inputSecondName);
-renderDom('.list-item:nth-child(5)', inputChatName);
-renderDom('.list-item:nth-child(6)', inputTel);
-renderDom('.form', button);
+        return layout;
+    }
+}

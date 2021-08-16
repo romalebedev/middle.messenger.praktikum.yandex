@@ -3,14 +3,18 @@ import 'normalize.css';
 import { Router } from './utils/Router';
 import { ChatPage } from './pages/chat';
 import { LoginPage } from './pages/login';
-import { profilePage } from './pages/profile/change-profile';
 import { RegistrationPage } from './pages/registration';
+import { ProfilePage } from './pages/profile';
+import { SettingsPage } from './pages/profile/change-profile';
+import { ChagePasswordPage } from './pages/profile/change-password';
 
 export const router = new Router('#root');
 
 router
-    .use('/chat', ChatPage)
+    .use('/messenger', ChatPage)
     .use('/sign-in', LoginPage)
     .use('/sign-up', RegistrationPage)
+    .use('/profile', ProfilePage)
+    .use('/settings', SettingsPage)
+    .use('/change-password', ChagePasswordPage)
     .start();
-

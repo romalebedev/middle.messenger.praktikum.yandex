@@ -25,7 +25,7 @@ export class LoginPage extends Block {
                     this.props.children?.inputEmail.setProps(setStatus(isValidEmail));
                     this.props.children?.inputPassword.setProps(setStatus(isValidPassword));
                     if (isValidEmail && isValidPassword) {
-                        router.go('/chat');
+                        router.go('/messenger');
                     }
                 },
             },

@@ -3,6 +3,9 @@
 .avatar {
   cursor: pointer;
   margin-bottom: 20px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
 
   &:hover {
     opacity: 0.3;

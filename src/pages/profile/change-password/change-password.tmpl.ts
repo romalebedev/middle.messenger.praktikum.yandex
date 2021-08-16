@@ -11,5 +11,5 @@ form.form.flex
         li.user-block-item.list-item
             span.margin Повторите новый пароль
 .wrapper-links.flex 
-a(href="../profile.html").link Вернуться назад 
+a.link Вернуться назад 
 `;

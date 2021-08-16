@@ -16,5 +16,5 @@ form.form.flex
         li.user-block-item.list-item
             span.margin Телефон
 .wrapper-links.flex 
-    a(href="../profile.html").link Вернуться назад 
+    a.link Вернуться назад 
 `;
