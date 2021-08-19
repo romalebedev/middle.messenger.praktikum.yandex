@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import '../../index.scss';
 import './index.scss';
 import { compile } from 'pug';
@@ -8,6 +9,7 @@ import { checkForPasswordMatch, validate } from '../../utils/validate';
 import Input from '../../components/input';
 import { setStatus } from '../../utils/set-status';
 import { router } from '../..';
+import { AuthAPI } from '../../api/auth-api';
 
 export class RegistrationPage extends Block {
     constructor() {
@@ -54,17 +56,26 @@ export class RegistrationPage extends Block {
                         isPasswordsMatch;
 
                     if (isAllFieldsValid) {
-                        console.log(
-                            `
-    Польхователь успешно создан:
-    email: ${email?.value}
-    login: ${login?.value}
-    name: ${name?.value}
-    secondName: ${secondName?.value}
-    tel: ${tel?.value}
-    password: ${password?.value}
-    `,
-                        );
+                        const data = {
+                            first_name: name?.value as string,
+                            second_name: secondName?.value as string,
+                            login: login?.value as string,
+                            email: email?.value as string,
+                            password: password?.value as string,
+                            phone: tel?.value as string,
+                        };
+
+                        new AuthAPI()
+                            .signUp(data)
+                            .then((response) => {
+                                if (response.status === 200) {
+                                    localStorage.setItem('isAuth', 'true');
+                                    router.go('/messages');
+                                }
+                            })
+                            .catch((error) => {
+                                console.log(new Error(error));
+                            });
                     }
                 },
             },

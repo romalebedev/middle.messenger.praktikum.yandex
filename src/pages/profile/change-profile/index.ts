@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import '../../../index.scss';
 import './index.scss';
 import { compile } from 'pug';
@@ -8,6 +9,7 @@ import Input from '../../../components/input';
 import { validate } from '../../../utils/validate';
 import { setStatus } from '../../../utils/set-status';
 import { router } from '../../..';
+import { ProfileAPI } from '../../../api/profile-api';
 
 export class SettingsPage extends Block {
     constructor() {
@@ -46,27 +48,37 @@ export class SettingsPage extends Block {
                         isValidTel;
 
                     if (isAllFieldsValid) {
-                        console.log(
-                            `
-    Данные успешно сохранены:
-    email: ${email?.value}
-    login: ${login?.value}
-    name: ${name?.value}
-    secondName: ${secondName?.value}
-    chatName: ${chatName?.value}
-    tel: ${tel?.value}
-    `,
-                        );
+                        const profileData = {
+                            first_name: name?.value as string,
+                            second_name: secondName?.value as string,
+                            login: login?.value as string,
+                            display_name: chatName?.value as string,
+                            email: email?.value as string,
+                            phone: tel?.value as string,
+                        };
+                        new ProfileAPI().setProfile(profileData).then((data) => {
+                            if (data.status === 200) {
+                                const newProfileData = JSON.parse(data.response);
+                                localStorage.setItem('first_name', newProfileData.first_name);
+                                localStorage.setItem('second_name', newProfileData.second_name);
+                                localStorage.setItem('email', newProfileData.email);
+                                localStorage.setItem('login', newProfileData.login);
+                                localStorage.setItem('phone', newProfileData.phone);
+                                localStorage.setItem('display_name', newProfileData.display_name);
+                                localStorage.setItem('avatar', newProfileData.avatar);
+                                localStorage.setItem('id', newProfileData.id);
+                            }
+                        });
                     }
                 },
             },
             children: {
                 inputEmail: new Input({
                     type: 'email',
-                    placeholder: 'Email',
+                    placeholder: '',
                     classNames: 'flex label',
                     name: 'email',
-                    value: 'pochta@gmail.com',
+                    value: localStorage.getItem('email') || '',
                     events: {
                         input: (e: Event): string => {
                             const item = e.target as HTMLInputElement;
@@ -76,10 +88,10 @@ export class SettingsPage extends Block {
                 }),
                 inputLogin: new Input({
                     type: 'text',
-                    placeholder: 'Логин',
+                    placeholder: '',
                     classNames: 'flex label',
                     name: 'login',
-                    value: 'ivan777',
+                    value: localStorage.getItem('login') || '',
                     events: {
                         input: (e: Event): string => {
                             const item = e.target as HTMLInputElement;
@@ -89,10 +101,10 @@ export class SettingsPage extends Block {
                 }),
                 inputName: new Input({
                     type: 'text',
-                    placeholder: 'Имя',
+                    placeholder: '',
                     classNames: 'flex label',
                     name: 'name',
-                    value: 'Иван',
+                    value: localStorage.getItem('first_name') || '',
                     events: {
                         input: (e: Event): string => {
                             const item = e.target as HTMLInputElement;
@@ -102,10 +114,10 @@ export class SettingsPage extends Block {
                 }),
                 inputSecondName: new Input({
                     type: 'text',
-                    placeholder: 'Фамилия',
+                    placeholder: '',
                     classNames: 'flex label',
                     name: 'secondName',
-                    value: 'Иванов',
+                    value: localStorage.getItem('second_name') || '',
                     events: {
                         input: (e: Event): string => {
                             const item = e.target as HTMLInputElement;
@@ -115,10 +127,12 @@ export class SettingsPage extends Block {
                 }),
                 inputChatName: new Input({
                     type: 'text',
-                    placeholder: 'Имя в чате',
+                    placeholder: '',
                     classNames: 'flex label',
                     name: 'chatName',
-                    value: 'ivan777',
+                    value:
+                        (localStorage.getItem('display_name') === 'null' ? '' : localStorage.getItem('display_name')) ||
+                        '',
                     events: {
                         input: (e: Event): string => {
                             const item = e.target as HTMLInputElement;
@@ -128,10 +142,10 @@ export class SettingsPage extends Block {
                 }),
                 inputTel: new Input({
                     type: 'tel',
-                    placeholder: 'Номер телефона',
+                    placeholder: '',
                     classNames: 'flex label',
                     name: 'tel',
-                    value: '89999999999',
+                    value: localStorage.getItem('phone') || '',
                     events: {
                         input: (e: Event): string => {
                             const item = e.target as HTMLInputElement;
@@ -165,6 +179,36 @@ export class SettingsPage extends Block {
             const link = document.querySelector('a');
             link?.addEventListener('click', () => {
                 router.go('/profile');
+            });
+
+            const avatarImg = document.querySelector('.avatar');
+            const avatarItem = localStorage.getItem('avatar');
+            avatarImg?.setAttribute('src', `${avatarItem ? avatarItem : 'https://via.placeholder.com/150'}`);
+
+            const avatarInput = document.querySelector('input[name="avatar"]');
+            avatarInput?.addEventListener('change', (e) => {
+                const target = e.target as HTMLInputElement;
+                const form = new FormData();
+
+                if (target.files) {
+                    form.append('avatar', target.files[0]);
+                }
+
+                console.log(form.get('avatar'));
+                new ProfileAPI().setAvatar(form).then((data) => {
+                    console.log(data);
+                    if (data.status === 200) {
+                        const profileData = JSON.parse(data.response);
+                        localStorage.setItem(
+                            'avatar',
+                            `https://ya-praktikum.tech/api/v2/resources${profileData.avatar}`,
+                        );
+                        avatarImg?.setAttribute(
+                            'src',
+                            `https://ya-praktikum.tech/api/v2/resources${profileData.avatar}`,
+                        );
+                    }
+                });
             });
         }, 0);
 

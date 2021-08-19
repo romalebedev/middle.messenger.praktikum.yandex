@@ -6,6 +6,7 @@ import { compile } from 'pug';
 import Block from '../../utils/block';
 import template from './profile.tmpl';
 import { router } from '../..';
+import { AuthAPI } from '../../api/auth-api';
 
 export class ProfilePage extends Block {
     constructor() {
@@ -18,13 +19,49 @@ export class ProfilePage extends Block {
         layout.innerHTML = component;
 
         setTimeout(() => {
-            const link = document.querySelectorAll('a');
-            link[0]?.addEventListener('click', () => {
+            const links = document.querySelectorAll('a');
+            links[0]?.addEventListener('click', () => {
                 router.go('/settings');
             });
-            link[1]?.addEventListener('click', () => {
+            links[1]?.addEventListener('click', () => {
                 router.go('/change-password');
             });
+            links[2]?.addEventListener('click', () => {
+                new AuthAPI()
+                    .logOut()
+                    .then((response) => {
+                        if (response.status === 200) {
+                            localStorage.setItem('isAuth', 'false');
+                            router.go('/sign-in');
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(new Error(error));
+                    });
+            });
+            links[3]?.addEventListener('click', () => {
+                router.go('/messenger');
+            });
+
+            const fields = document.querySelectorAll('.input');
+            fields[0].textContent = localStorage.getItem('email');
+            fields[1].textContent = localStorage.getItem('login');
+            fields[2].textContent = localStorage.getItem('first_name');
+            fields[3].textContent = localStorage.getItem('second_name');
+            fields[4].textContent =
+                localStorage.getItem('display_name') !== 'null' ? localStorage.getItem('display_name') : '';
+            fields[5].textContent = localStorage.getItem('phone');
+
+            const name = document.querySelector('.name');
+            if (name) {
+                name.textContent = localStorage.getItem('first_name');
+            }
+
+            const avatarImg = document.querySelector('.avatar');
+            const avatarItem = localStorage.getItem('avatar');
+            if (avatarItem) {
+                avatarImg?.setAttribute('src', `${avatarItem ? avatarItem : 'https://via.placeholder.com/150'}`);
+            }
         }, 0);
 
         return layout;

@@ -8,6 +8,7 @@ import Input from '../../../components/input';
 import { checkForPasswordMatch, validate } from '../../../utils/validate';
 import { setStatus } from '../../../utils/set-status';
 import { router } from '../../..';
+import { ProfileAPI } from '../../../api/profile-api';
 
 export class ChagePasswordPage extends Block {
     constructor() {
@@ -35,7 +36,16 @@ export class ChagePasswordPage extends Block {
                         isValidOldPassword && isValidNewPassword && isValidPasswordRepeat && isPasswordsMatch;
 
                     if (isAllFieldsValid) {
-                        console.log('Пароль успешно изменен!');
+                        const data = {
+                            oldPassword: oldPassword?.value as string,
+                            newPassword: newPassword?.value as string,
+                        };
+                        new ProfileAPI()
+                            .setPassword(data)
+                            .then(() => router.go('/profile'))
+                            .catch((error) => {
+                                console.log(new Error(error));
+                            });
                     }
                 },
             },
@@ -100,6 +110,16 @@ export class ChagePasswordPage extends Block {
             link?.addEventListener('click', () => {
                 router.go('/profile');
             });
+            const avatarImg = document.querySelector('.avatar');
+            const avatarItem = localStorage.getItem('avatar');
+            if (avatarItem) {
+                avatarImg?.setAttribute('src', `${avatarItem ? avatarItem : 'https://via.placeholder.com/150'}`);
+            }
+
+            const name = document.querySelector('.name');
+            if (name) {
+                name.textContent = localStorage.getItem('first_name');
+            }
         }, 0);
 
         return layout;

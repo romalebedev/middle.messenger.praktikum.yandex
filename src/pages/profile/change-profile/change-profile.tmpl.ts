@@ -1,6 +1,11 @@
 export default `
 .avatar-block.flex
-    img(src="https://via.placeholder.com/150", alt="Аватар").avatar
+    img(src="", alt="Аватар").avatar
+    input(
+        type='file'
+        name='avatar'
+        accept='image/*'
+      ).invisible
 form.form.flex
     ul.user-block-list 
         li.user-block-item.list-item

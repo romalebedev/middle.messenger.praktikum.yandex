@@ -1,12 +1,12 @@
 export default `
 .avatar-block.flex
     img(src="https://via.placeholder.com/150", alt="Аватар").avatar
-    span Имя
+    span.name
 form.form.flex    
     ul.user-block-list 
         li.user-block-item.list-item
             span Почта
-            span.input.change-input pochta@yandex.ru
+            span.input.change-input
         li.user-block-item.list-item
             span Логин
             span.input.change-input Логин
@@ -23,6 +23,9 @@ form.form.flex
             span Телефон
             span.input.change-input Телефон    
 .wrapper-links.flex 
-    a.link Изменить данные 
-    a.link Изменить пароль 
+    .set-container
+        a.link Изменить данные 
+        a.link Изменить пароль
+    a.link Выйти из аккаунта
+    a.link Вернуться назад   
 `;
