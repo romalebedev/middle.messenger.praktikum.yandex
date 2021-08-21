@@ -13,6 +13,7 @@ export default class ChatItem extends Block {
             time: props.time,
             classNames: props.classNames,
             status: props.status,
+            block: props.block,
             events: {
                 ...props.events,
                 click: () => {
@@ -21,13 +22,13 @@ export default class ChatItem extends Block {
                     if (noSelectedblock && selectedBlock) {
                         this.hideElement(noSelectedblock);
                         this.showElement(selectedBlock);
-                        const avatar = selectedBlock.querySelector('.chat-avatar');
-                        const chatName = selectedBlock.querySelector('.chat-name');
-                        avatar?.setAttribute('src', props.avatar ? props.avatar : 'https://via.placeholder.com/150');
-                        if (chatName) {
-                            chatName.textContent = props?.name || '';
-                        }
                     }
+
+                    props.block?.setProps({
+                        avatar: props.avatar ? props.avatar : 'https://via.placeholder.com/150',
+                        name: props.name,
+                        message: `${props.message ? props.message : 'Сообщений нет'}`,
+                    });
                 },
             },
         });
@@ -49,4 +50,5 @@ type ChatItemProps = {
     classNames?: string;
     events?: Events;
     status?: number;
+    block?: Block;
 };

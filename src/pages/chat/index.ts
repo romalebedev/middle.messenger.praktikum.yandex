@@ -11,6 +11,7 @@ import { ChatAPI } from '../../api/chat-api';
 import { validate } from '../../utils/validate';
 import { setStatus } from '../../utils/set-status';
 import { getChats } from '../../utils/get-chats';
+import ChatBlock from '../../components/chat-block';
 
 export class ChatPage extends Block {
     constructor() {
@@ -49,7 +50,9 @@ export class ChatPage extends Block {
                                     .then((response) => {
                                         if (response.status === 200) {
                                             const chatData = JSON.parse(response?.response);
-                                            getChats(chatData.id);
+                                            if (this.props.children?.chatBlock) {
+                                                getChats(this.props.children?.chatBlock, chatData.id);
+                                            }
                                         }
                                     })
                                     .catch((error) => {
@@ -58,6 +61,9 @@ export class ChatPage extends Block {
                             }
                         },
                     },
+                }),
+                chatBlock: new ChatBlock({
+                    classNames: 'selected-chat-block',
                 }),
             },
         });
@@ -70,7 +76,7 @@ export class ChatPage extends Block {
 
         layout.innerHTML = component;
         if (children) {
-            layout.querySelector('.footer')?.appendChild(children.inputMessage.getContent());
+            layout.querySelector('.chats-container')?.appendChild(children.chatBlock.getContent());
             layout.querySelector('.create-chat-container')?.appendChild(children.inputChatName.getContent());
             layout.querySelector('.create-chat-container')?.appendChild(children.createButton.getContent());
         }
@@ -82,7 +88,9 @@ export class ChatPage extends Block {
             });
         }, 0);
 
-        getChats();
+        if (children?.chatBlock) {
+            getChats(children?.chatBlock);
+        }
 
         return layout;
     }

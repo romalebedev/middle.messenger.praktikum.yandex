@@ -195,7 +195,6 @@ export class SettingsPage extends Block {
                 }
 
                 new ProfileAPI().setAvatar(form).then((data) => {
-                    console.log(data);
                     if (data.status === 200) {
                         const profileData = JSON.parse(data.response);
                         localStorage.setItem(
