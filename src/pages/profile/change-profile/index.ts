@@ -194,7 +194,6 @@ export class SettingsPage extends Block {
                     form.append('avatar', target.files[0]);
                 }
 
-                console.log(form.get('avatar'));
                 new ProfileAPI().setAvatar(form).then((data) => {
                     console.log(data);
                     if (data.status === 200) {

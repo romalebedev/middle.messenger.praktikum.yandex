@@ -21,6 +21,12 @@ export default class ChatItem extends Block {
                     if (noSelectedblock && selectedBlock) {
                         this.hideElement(noSelectedblock);
                         this.showElement(selectedBlock);
+                        const avatar = selectedBlock.querySelector('.chat-avatar');
+                        const chatName = selectedBlock.querySelector('.chat-name');
+                        avatar?.setAttribute('src', props.avatar ? props.avatar : 'https://via.placeholder.com/150');
+                        if (chatName) {
+                            chatName.textContent = props?.name || '';
+                        }
                     }
                 },
             },
@@ -42,5 +48,5 @@ type ChatItemProps = {
     time?: string;
     classNames?: string;
     events?: Events;
-    status?: string;
+    status?: number;
 };

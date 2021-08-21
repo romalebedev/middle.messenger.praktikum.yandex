@@ -5,19 +5,24 @@ import { compile } from 'pug';
 import Block from '../../utils/block';
 import template from './chat.tmpl';
 import Input from '../../components/input';
-import ChatItem from '../../components/chat-item';
 import { router } from '../../index';
+import Button from '../../components/button';
+import { ChatAPI } from '../../api/chat-api';
+import { validate } from '../../utils/validate';
+import { setStatus } from '../../utils/set-status';
+import { getChats } from '../../utils/get-chats';
 
 export class ChatPage extends Block {
     constructor() {
         super('div', {
             classNames: 'chat-container',
             children: {
-                inputSearch: new Input({
+                inputChatName: new Input({
                     type: 'text',
-                    placeholder: 'Search',
-                    classNames: 'flex label',
-                    name: 'search',
+                    placeholder: 'Название чата',
+                    classNames: 'flex label create-chat',
+                    inputClassNames: 'input-create-chat',
+                    name: 'login',
                 }),
                 inputMessage: new Input({
                     type: 'text',
@@ -25,22 +30,34 @@ export class ChatPage extends Block {
                     classNames: 'flex label',
                     name: 'message',
                 }),
-                chatItem: new ChatItem({
-                    avatar: 'https://via.placeholder.com/150',
-                    name: 'Иван',
-                    message:
-                        'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad quam itaque, aperiam obcaecati dolore cumque expedita consequuntur saepe quia quisquam quo quod! Iste laboriosam impedit labore ratione distinctio magni qui?',
-                    time: '16:48',
-                    classNames: 'list-flex',
-                    status: 'unread',
-                }),
-                chatItem2: new ChatItem({
-                    avatar: 'https://via.placeholder.com/150',
-                    name: 'Вован',
-                    message: 'Test',
-                    time: '17:00',
-                    classNames: 'list-flex',
-                    status: 'unread',
+                createButton: new Button({
+                    text: 'Создать новый чат',
+                    classNames: 'create-chat-button',
+                    events: {
+                        click: () => {
+                            const createInput: HTMLInputElement | null = document.querySelector('input[name="login"]');
+                            const data = {
+                                title: createInput?.value as string,
+                            };
+                            const isValidinputChatName = validate(createInput);
+
+                            this.props.children?.inputChatName.setProps(setStatus(isValidinputChatName));
+
+                            if (isValidinputChatName) {
+                                new ChatAPI()
+                                    .createChat(data)
+                                    .then((response) => {
+                                        if (response.status === 200) {
+                                            const chatData = JSON.parse(response?.response);
+                                            getChats(chatData.id);
+                                        }
+                                    })
+                                    .catch((error) => {
+                                        console.log(new Error(error));
+                                    });
+                            }
+                        },
+                    },
                 }),
             },
         });
@@ -53,10 +70,9 @@ export class ChatPage extends Block {
 
         layout.innerHTML = component;
         if (children) {
-            layout.querySelector('.chatlist-header')?.appendChild(children.inputSearch.getContent());
-            layout.querySelector('.chats-list')?.appendChild(children.chatItem.getContent());
-            layout.querySelector('.chats-list')?.appendChild(children.chatItem.getContent());
             layout.querySelector('.footer')?.appendChild(children.inputMessage.getContent());
+            layout.querySelector('.create-chat-container')?.appendChild(children.inputChatName.getContent());
+            layout.querySelector('.create-chat-container')?.appendChild(children.createButton.getContent());
         }
 
         setTimeout(() => {
@@ -65,6 +81,8 @@ export class ChatPage extends Block {
                 router.go('/profile');
             });
         }, 0);
+
+        getChats();
 
         return layout;
     }

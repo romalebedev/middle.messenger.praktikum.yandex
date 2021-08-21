@@ -9,8 +9,7 @@ export default class Button extends Block {
     }
 
     render(): HTMLElement {
-        const { text } = this.props;
-        const component = compile(template)({ text });
+        const component = compile(template)(this.props);
         const layout = document.createElement('button');
         layout.innerHTML = component;
         return layout as HTMLElement;
@@ -20,4 +19,5 @@ export default class Button extends Block {
 type ButtonProps = {
     text?: string;
     events?: Events;
+    classNames?: string;
 };

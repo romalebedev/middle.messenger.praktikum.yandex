@@ -20,7 +20,7 @@ enum InputTypes {
     message = 'message',
 }
 
-export const validate = (input: HTMLInputElement | null) => {
+export const validate = (input: HTMLInputElement | null): boolean => {
     if (!input) {
         return false;
     }
@@ -47,11 +47,11 @@ export const validate = (input: HTMLInputElement | null) => {
         case InputTypes.message:
             return true;
         default:
-            return false;
+            return true;
     }
 };
 
-export const checkForPasswordMatch = (pass: HTMLInputElement | null, passRepeat: HTMLInputElement | null) => {
+export const checkForPasswordMatch = (pass: HTMLInputElement | null, passRepeat: HTMLInputElement | null): boolean => {
     if (pass?.value !== '' && passRepeat?.value !== '') {
         return pass?.value === passRepeat?.value;
     }

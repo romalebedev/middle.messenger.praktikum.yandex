@@ -43,7 +43,10 @@ export class LoginPage extends Block {
                                         localStorage.setItem('login', profileData.login);
                                         localStorage.setItem('phone', profileData.phone);
                                         localStorage.setItem('display_name', profileData.display_name);
-                                        localStorage.setItem('avatar', profileData.avatar);
+                                        localStorage.setItem(
+                                            'avatar',
+                                            `https://ya-praktikum.tech/api/v2/resources${profileData.avatar}`,
+                                        );
                                         localStorage.setItem('id', profileData.id);
                                         localStorage.setItem('isAuth', 'true');
 

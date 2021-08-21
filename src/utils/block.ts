@@ -87,7 +87,6 @@ export default class Block {
         const block = this.render();
         this._removeEvents();
         const el = block as unknown as Element;
-
         const { classNames } = this.props;
 
         if (classNames) {

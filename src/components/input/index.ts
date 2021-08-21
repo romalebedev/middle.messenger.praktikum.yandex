@@ -13,6 +13,7 @@ export default class Input extends Block {
             name: props.name,
             status: props.status,
             classNames: props.classNames,
+            inputClassNames: props.inputClassNames,
             events: {
                 focusout: (e: Event) => {
                     const element = e.target as HTMLInputElement;
@@ -40,4 +41,5 @@ type InputProps = {
     name?: string;
     events?: Events;
     status?: string;
+    inputClassNames?: string;
 };
