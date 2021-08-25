@@ -21,13 +21,14 @@ export default class HTTPTransport {
             {
                 ...options,
                 method: METHOD.GET,
+                mode: 'cors',
             },
             options.timeout,
         );
     };
 
     post = (url: string, options?: Options): Promise<XMLHttpRequest> =>
-        this.request(url, { ...options, method: METHOD.POST });
+        this.request(url, { ...options, method: METHOD.POST, mode: 'cors' });
 
     put = (url: string, options: Options): Promise<XMLHttpRequest> =>
         this.request(url, { ...options, method: METHOD.PUT });

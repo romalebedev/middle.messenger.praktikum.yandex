@@ -4,6 +4,7 @@ const passwordRegexp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 const loginRegexp = /^[a-z_0-9]+$/i;
 const telRegexp = /^(\+7|8)[0-9]{10}$/i;
 const nameRegexp = /^[a-zа-яё]{2,}$/i;
+const numRegexp = /^[0-9]+$/;
 
 enum InputTypes {
     email = 'email',
@@ -18,6 +19,8 @@ enum InputTypes {
     oldPassword = 'oldPassword',
     search = 'search',
     message = 'message',
+    number = 'number',
+    numberForRemove = 'numberForRemove',
 }
 
 export const validate = (input: HTMLInputElement | null): boolean => {
@@ -27,6 +30,7 @@ export const validate = (input: HTMLInputElement | null): boolean => {
 
     const { name } = input;
     const { value } = input;
+
     switch (name) {
         case InputTypes.email:
             return emailRegexp.test(value);
@@ -46,6 +50,9 @@ export const validate = (input: HTMLInputElement | null): boolean => {
         case InputTypes.search:
         case InputTypes.message:
             return true;
+        case InputTypes.number:
+        case InputTypes.numberForRemove:
+            return numRegexp.test(value);
         default:
             return true;
     }

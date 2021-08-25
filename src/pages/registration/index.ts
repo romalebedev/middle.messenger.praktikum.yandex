@@ -70,7 +70,7 @@ export class RegistrationPage extends Block {
                             .then((response) => {
                                 if (response.status === 200) {
                                     localStorage.setItem('isAuth', 'true');
-                                    router.go('/messages');
+                                    router.go('/messenger');
                                 }
                             })
                             .catch((error) => {

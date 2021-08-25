@@ -12,12 +12,12 @@ export default class Popup extends Block {
         const component = compile(template)(this.props);
         const layout = document.createElement('div');
         layout.innerHTML = component;
-        console.log(layout)
+        console.log(layout);
         return layout as HTMLElement;
     }
 }
 
-// type ButtonProps = {
+// Type ButtonProps = {
 //     text?: string;
 //     events?: Events;
 //     classNames?: string;

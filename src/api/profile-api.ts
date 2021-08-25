@@ -5,7 +5,11 @@ import { BaseAPI } from './base-api';
 
 export class ProfileAPI extends BaseAPI {
     getUserInfo(): Promise<XMLHttpRequest> {
-        return new HTTPTransport().get(`${baseUrl}/auth/user`);
+        return new HTTPTransport().get(`${baseUrl}/auth/user`, {
+            headers: {
+                'content-type': 'application/json',
+            },
+        });
     }
 
     setPassword(options: ISetPasswordOptions): Promise<XMLHttpRequest> {

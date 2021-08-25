@@ -17,25 +17,51 @@ export class ChatAPI extends BaseAPI {
         return new HTTPTransport().get(`${baseUrl}/chats`);
     }
 
-    // signIn(options: ISignInOptions): Promise<XMLHttpRequest> {
-    //     return new HTTPTransport().post(`${baseUrl}/auth/signin`, {
-    //         headers: {
-    //             'content-type': 'application/json',
-    //         },
-    //         data: JSON.stringify(options),
-    //     });
-    // }
+    getChatUsers(id: number): Promise<XMLHttpRequest> {
+        return new HTTPTransport().get(`${baseUrl}/chats/${id}/users`);
+    }
 
-    // logOut(): Promise<XMLHttpRequest> {
-    //     return new HTTPTransport().post(`${baseUrl}/auth/logout`);
-    // }
+    deleteChat(options: IDeleteChatOptions): Promise<XMLHttpRequest> {
+        return new HTTPTransport().delete(`${baseUrl}/chats`, {
+            headers: {
+                'content-type': 'application/json',
+            },
+            data: JSON.stringify(options),
+        });
+    }
+
+    addUser(options: IAddUserOptions): Promise<XMLHttpRequest> {
+        return new HTTPTransport().put(`${baseUrl}/chats/users`, {
+            headers: {
+                'content-type': 'application/json',
+            },
+            data: JSON.stringify(options),
+        });
+    }
+
+    removeUser(options: IAddUserOptions): Promise<XMLHttpRequest> {
+        return new HTTPTransport().delete(`${baseUrl}/chats/users`, {
+            headers: {
+                'content-type': 'application/json',
+            },
+            data: JSON.stringify(options),
+        });
+    }
+
+    getToken(id: number | string): Promise<XMLHttpRequest> {
+        return new HTTPTransport().post(`${baseUrl}/chats/token/${id}`);
+    }
 }
 
 type ICreateChatOptions = {
     title: string;
 };
 
-type ISignInOptions = {
-    login: string;
-    password: string;
+type IDeleteChatOptions = {
+    chatId: number;
+};
+
+type IAddUserOptions = {
+    users: number[];
+    chatId: number;
 };

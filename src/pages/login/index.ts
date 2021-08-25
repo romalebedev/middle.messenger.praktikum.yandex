@@ -45,7 +45,9 @@ export class LoginPage extends Block {
                                         localStorage.setItem('display_name', profileData.display_name);
                                         localStorage.setItem(
                                             'avatar',
-                                            `https://ya-praktikum.tech/api/v2/resources${profileData.avatar}`,
+                                            profileData.avatar
+                                                ? `https://ya-praktikum.tech/api/v2/resources${profileData.avatar}`
+                                                : 'https://via.placeholder.com/150',
                                         );
                                         localStorage.setItem('id', profileData.id);
                                         localStorage.setItem('isAuth', 'true');

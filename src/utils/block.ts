@@ -1,4 +1,5 @@
 import EventBus from './event-bus';
+import WebSocketService from './web-socket';
 
 export default class Block {
     static EVENTS = {
@@ -157,10 +158,12 @@ export default class Block {
     }
 
     showElement(element: Element | any): void {
+        element.classList.remove('hide');
         element.classList.add('show');
     }
 
     hideElement(element: Element): void {
+        element.classList.remove('show');
         element.classList.add('hide');
     }
 
@@ -178,6 +181,7 @@ export type Props = {
     classNames?: string;
     [key: string]: unknown;
     children?: Record<string, Block>;
+    socket?: WebSocketService;
 };
 
 export type Events = {

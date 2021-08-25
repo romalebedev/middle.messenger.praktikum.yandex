@@ -1,16 +1,16 @@
 import Block, { Events } from '../../utils/block';
 import { compile } from 'pug';
-import template from './button.tmpl';
+import template from './message.tmpl';
 import './index.scss';
 
-export default class Button extends Block {
+export default class Message extends Block {
     constructor(props: ButtonProps) {
-        super('button', props);
+        super('div', props);
     }
 
     render(): HTMLElement {
         const component = compile(template)(this.props);
-        const layout = document.createElement('button');
+        const layout = document.createElement('div');
         layout.innerHTML = component;
         return layout as HTMLElement;
     }

@@ -10,13 +10,14 @@ import Button from '../../components/button';
 import { ChatAPI } from '../../api/chat-api';
 import { validate } from '../../utils/validate';
 import { setStatus } from '../../utils/set-status';
-import { getChats } from '../../utils/get-chats';
+import { ChatsRender, getChats } from '../../utils/get-chats';
 import ChatBlock from '../../components/chat-block';
 
 export class ChatPage extends Block {
     constructor() {
         super('div', {
             classNames: 'chat-container',
+            socket: null,
             children: {
                 inputChatName: new Input({
                     type: 'text',
@@ -30,6 +31,20 @@ export class ChatPage extends Block {
                     placeholder: 'Сообщение',
                     classNames: 'flex label',
                     name: 'message',
+                }),
+                inputUserID: new Input({
+                    type: 'text',
+                    placeholder: 'ID пользователя',
+                    classNames: 'flex label create-chat add-user',
+                    inputClassNames: 'input-create-chat',
+                    name: 'number',
+                }),
+                inputUserIDForRemove: new Input({
+                    type: 'text',
+                    placeholder: 'ID пользователя',
+                    classNames: 'flex label create-chat remove-user',
+                    inputClassNames: 'input-create-chat',
+                    name: 'numberForRemove',
                 }),
                 createButton: new Button({
                     text: 'Создать новый чат',
@@ -51,13 +66,64 @@ export class ChatPage extends Block {
                                         if (response.status === 200) {
                                             const chatData = JSON.parse(response?.response);
                                             if (this.props.children?.chatBlock) {
-                                                getChats(this.props.children?.chatBlock, chatData.id);
+                                                getChats(
+                                                    ChatsRender.LAST_CHAT,
+                                                    this.props.children?.chatBlock,
+                                                    chatData.id,
+                                                );
                                             }
                                         }
                                     })
                                     .catch((error) => {
                                         console.log(new Error(error));
                                     });
+                            }
+                        },
+                    },
+                }),
+                addUserButton: new Button({
+                    text: 'Добавить пользователя',
+                    classNames: 'create-chat-button',
+                    events: {
+                        click: () => {
+                            const addUserInput: HTMLInputElement | null =
+                                document.querySelector('input[name="number"]');
+
+                            const isValid = validate(addUserInput);
+
+                            this.props.children?.inputUserID.setProps(setStatus(isValid));
+
+                            if (isValid) {
+                                const chatId = localStorage.getItem('currentChatId');
+                                const data = {
+                                    users: [Number(addUserInput?.value)],
+                                    chatId: Number(chatId),
+                                };
+                                new ChatAPI().addUser(data).then();
+                            }
+                        },
+                    },
+                }),
+                removeUserButton: new Button({
+                    text: 'Удалить из чата',
+                    classNames: 'create-chat-button',
+                    events: {
+                        click: () => {
+                            const removeUserInput: HTMLInputElement | null = document.querySelector(
+                                'input[name="numberForRemove"]',
+                            );
+
+                            const isValid = validate(removeUserInput);
+
+                            this.props.children?.inputUserIDForRemove.setProps(setStatus(isValid));
+
+                            if (isValid) {
+                                const chatId = localStorage.getItem('currentChatId');
+                                const data = {
+                                    users: [Number(removeUserInput?.value)],
+                                    chatId: Number(chatId),
+                                };
+                                new ChatAPI().removeUser(data).then();
                             }
                         },
                     },
@@ -70,6 +136,7 @@ export class ChatPage extends Block {
     }
 
     render(): HTMLElement {
+        localStorage.removeItem('messages');
         const { children } = this.props;
         const component = compile(template, {})();
         const layout = document.createElement('div');
@@ -78,7 +145,11 @@ export class ChatPage extends Block {
         if (children) {
             layout.querySelector('.chats-container')?.appendChild(children.chatBlock.getContent());
             layout.querySelector('.create-chat-container')?.appendChild(children.inputChatName.getContent());
+            layout.querySelector('.add-user-container')?.appendChild(children.inputUserID.getContent());
+            layout.querySelector('.remove-user-container')?.appendChild(children.inputUserIDForRemove.getContent());
             layout.querySelector('.create-chat-container')?.appendChild(children.createButton.getContent());
+            layout.querySelector('.add-user-container')?.appendChild(children.addUserButton.getContent());
+            layout.querySelector('.remove-user-container')?.appendChild(children.removeUserButton.getContent());
         }
 
         setTimeout(() => {
@@ -89,7 +160,7 @@ export class ChatPage extends Block {
         }, 0);
 
         if (children?.chatBlock) {
-            getChats(children?.chatBlock);
+            getChats(ChatsRender.ALL, children?.chatBlock);
         }
 
         return layout;
