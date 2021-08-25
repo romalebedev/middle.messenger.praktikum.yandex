@@ -70,7 +70,6 @@ export default class ChatBlock extends Block {
         }
 
         if (Array.isArray(messages) && chatBlock && userId) {
-            console.log(messages);
             messages.forEach((item): void => {
                 chatBlock.appendChild(
                     new Message({

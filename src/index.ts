@@ -12,7 +12,7 @@ export const router = new Router('#root');
 
 router
     .use('/messenger', ChatPage)
-    .use('/sign-in', LoginPage)
+    .use('/', LoginPage)
     .use('/sign-up', RegistrationPage)
     .use('/profile', ProfilePage)
     .use('/settings', SettingsPage)
