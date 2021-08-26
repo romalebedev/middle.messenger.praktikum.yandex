@@ -9,6 +9,7 @@ export default class Button extends Block {
     }
 
     render(): HTMLElement {
+        console.log(this.constructor.name);
         const component = compile(template)(this.props);
         const layout = document.createElement('button');
         layout.innerHTML = component;

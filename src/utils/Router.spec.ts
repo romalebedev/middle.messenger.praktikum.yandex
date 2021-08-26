@@ -1,12 +1,13 @@
-import Block from './block';
+import { assert } from 'chai';
+import Block, { Props } from './Block';
 import { renderDom } from './render-DOM';
 
 function isEqual(lhs: string, rhs: string) {
     return lhs === rhs;
 }
 
-export class Route {
-    private _pathname: string;
+class Route {
+    _pathname: string;
     private _blockClass: any;
     private _block: Block | null;
     private _props: Record<string, any>;
@@ -45,9 +46,9 @@ export class Route {
     }
 }
 
-export class Router {
+class Router {
     private static __instance: Router;
-    private routes: Route[] | undefined;
+    routes: Route[] | undefined;
     private history: History | undefined;
     private _currentRoute: Route | null | undefined;
     private _rootQuery: string | undefined;
@@ -112,3 +113,32 @@ export class Router {
         return this.routes?.find((route) => route.match(pathname));
     }
 }
+
+class TestBlock extends Block {
+    constructor(props: Props) {
+        super('div', props);
+    }
+
+    render() {
+        return `<div>test</div>`;
+    }
+}
+
+describe('check Router', () => {
+    it('init', () => {
+        const router = new Router('.app');
+
+        assert.exists(router);
+    });
+
+    it('check route', () => {
+        const router = new Router('.app');
+        router.use('/first-test', new TestBlock({}));
+
+        const { routes } = router;
+        if (routes) {
+            assert.lengthOf(routes, 1, 'Added a route');
+            assert.equal(routes[0]._pathname, '/first-test');
+        }
+    });
+});
