@@ -1,4 +1,4 @@
-https://github.com/romalebedev/middle.messenger.praktikum.yandex/pull/2
+https://github.com/romalebedev/middle.messenger.praktikum.yandex/pull/4
 
 ## Ссылка на макет
 
@@ -17,6 +17,9 @@ https://jovial-leakey-c7cdc3.netlify.app/
 - Реализован компонентный подход
 - Реализована валидация полей на focus/blur и submit
 - Добавлен ESlint/Stylelint
+- Реализован роутинг на основе History API
+- Подключн WebSocket для взаимодействия с API чата
+- Добавлены юнит-тесты
 
 ## Установка
 
