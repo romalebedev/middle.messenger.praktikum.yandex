@@ -9,7 +9,6 @@
   publish = "dist"
 
 [[redirects]]
-  from = "/*"
-  to = "/"
+  from = "/api/*"
+  to = "https://ya-praktikum.tech/:splat"
   status = 200
-  force = false  
