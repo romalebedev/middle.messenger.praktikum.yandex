@@ -32,7 +32,7 @@ export class ProfilePage extends Block {
                     .then((response) => {
                         if (response.status === 200) {
                             localStorage.setItem('isAuth', 'false');
-                            router.go('/sign-in');
+                            router.go('/');
                         }
                     })
                     .catch((error) => {

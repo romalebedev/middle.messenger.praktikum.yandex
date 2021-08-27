@@ -53,8 +53,9 @@ export default class WebSocketService {
 
                 if (oldMessages) {
                     const parsedOldMessages = JSON.parse(oldMessages);
-                    parsedOldMessages.reverse().push(parsedMessages);
-                    this.block?.setProps({ messages: parsedOldMessages });
+                    parsedOldMessages.unshift(parsedMessages);
+                    localStorage.setItem('messages', JSON.stringify(parsedOldMessages));
+                    this.block?.setProps({ messages: parsedOldMessages.reverse() });
                 }
             }
         }

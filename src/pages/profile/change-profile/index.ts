@@ -65,7 +65,10 @@ export class SettingsPage extends Block {
                                 localStorage.setItem('login', newProfileData.login);
                                 localStorage.setItem('phone', newProfileData.phone);
                                 localStorage.setItem('display_name', newProfileData.display_name);
-                                localStorage.setItem('avatar', newProfileData.avatar);
+                                localStorage.setItem(
+                                    'avatar',
+                                    `https://ya-praktikum.tech/api/v2/resources${newProfileData.avatar}`,
+                                );
                                 localStorage.setItem('id', newProfileData.id);
                             }
                         });

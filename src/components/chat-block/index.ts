@@ -28,6 +28,7 @@ export default class ChatBlock extends Block {
 
     render(): HTMLElement {
         const { messages, socket } = this.props;
+
         const component = compile(template)(this.props);
         const layout = document.createElement('div');
         layout.innerHTML = component;
@@ -66,6 +67,7 @@ export default class ChatBlock extends Block {
         if (userId && token && messageInput) {
             layout.querySelector('.send-icon')?.addEventListener('click', () => {
                 socket?.send({ content: messageInput?.value || 'message', type: 'message' });
+                this.props.children?.input.setProps({ value: '' });
             });
         }
 
