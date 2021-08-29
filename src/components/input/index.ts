@@ -13,8 +13,8 @@ export default class Input extends Block {
             name: props.name,
             status: props.status,
             classNames: props.classNames,
+            inputClassNames: props.inputClassNames,
             events: {
-                ...props.events,
                 focusout: (e: Event) => {
                     const element = e.target as HTMLInputElement;
                     this.props.value = element.value;
@@ -25,10 +25,11 @@ export default class Input extends Block {
         });
     }
 
-    render() {
-        const { type, placeholder, name, status, value } = this.props;
-        const component = compile(template);
-        return component({ type, placeholder, name, status, value });
+    render(): HTMLElement {
+        const component = compile(template)(this.props);
+        const layout = document.createElement('div');
+        layout.innerHTML = component;
+        return layout as HTMLElement;
     }
 }
 
@@ -40,4 +41,5 @@ type InputProps = {
     name?: string;
     events?: Events;
     status?: string;
+    inputClassNames?: string;
 };

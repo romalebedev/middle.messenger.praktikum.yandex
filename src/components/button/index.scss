@@ -1,11 +1,11 @@
-@import "../../styles/variables.scss";
+@import '../../styles/variables.scss';
 
 button {
-  background-color: $purple-color;
-  padding: 15px 50px;
-  border-radius: 10px;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  margin-top: 40px;
+    background-color: $purple-color;
+    padding: 15px 50px;
+    border-radius: 10px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    margin-top: 40px;
 }

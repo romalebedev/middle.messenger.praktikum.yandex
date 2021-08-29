@@ -1,5 +1,5 @@
-@import "../../styles/variables.scss";
-@import "../../index.scss";
+@import '../../styles/variables.scss';
+@import '../../index.scss';
 
 .chatlist-container {
   border-right: 3px solid $border-color;
@@ -10,6 +10,8 @@
 
 .chat-container {
   display: flex;
+  position: relative;
+  height: 100vh;
 }
 
 .chatlist-header {
@@ -38,7 +40,7 @@
   }
 }
 
-.user-avatar {
+.chat-avatar {
   border-radius: 50%;
   width: 47px;
   height: 47px;
@@ -65,44 +67,41 @@
 }
 
 .no-selected-chat-block {
-  // display: flex;
-  display: none;
+  display: flex;
+  // display: none;
   align-items: center;
   justify-content: center;
   height: 100%;
 }
 
-.selected-chat-block {
-  // display: none;
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.create-chat-button {
   width: 100%;
-  display: flex;
+  margin-top: 0;
+}
+
+.input-create-chat {
+  // margin-bottom: 0 !important;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.create-chat {
+  margin-top: 10px;
+}
+
+.add-user-container {
+  display: none;
+  justify-content: center;
   flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
 }
 
-.delete-icon {
-  width: 30px;
-  height: 30px;
-  margin-left: auto;
-  cursor: pointer;
-}
-
-.send-icon {
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-  order: 1;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  border-bottom: 3px solid $border-color;
-  padding-bottom: 10px;
-}
-
-.footer {
-  display: flex;
-  justify-content: space-between;
+.remove-user-container {
+  display: none;
+  justify-content: center;
+  flex-direction: column;
 }

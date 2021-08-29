@@ -13,6 +13,7 @@ body {
   min-height: 100vh;
   justify-content: center;
   padding-bottom: 30px;
+  padding-top: 30px;
 }
 
 .flex {
@@ -24,6 +25,7 @@ body {
 .link {
   color: $purple-color;
   margin-bottom: 20px;
+  cursor: pointer;
 
   &:last-child {
     margin-bottom: 0;
@@ -45,7 +47,7 @@ body {
 }
 
 .show {
-  display: block !important;
+  display: flex !important;
 }
 
 .hide {

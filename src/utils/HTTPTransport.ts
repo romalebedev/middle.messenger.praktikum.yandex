@@ -7,36 +7,37 @@ enum METHOD {
 }
 
 type Options = {
-    method: string;
-    headers: Record<string, unknown>;
-    data?: any;
+    method?: string;
+    data?: unknown;
+    mode?: string;
+    timeout?: number;
+    headers?: Record<string, string>;
 };
 
-function queryStringify(data: any) {
-    const keys = Object.keys(data);
-    return keys.reduce(
-        (result, key, index) => `${result}${key}=${data[key]}${index < keys.length - 1 ? '&' : ''}`,
-        '?',
-    );
-}
-
 export default class HTTPTransport {
-    get = (url: string, options: Options): Promise<XMLHttpRequest> => {
-        const { data } = options;
-        const queryUrl = url + queryStringify(data);
-        delete options.data;
-
-        return this.request(queryUrl, { ...options, method: METHOD.GET });
+    get = (url: string, options: Options = {}): Promise<XMLHttpRequest> => {
+        return this.request(
+            url,
+            {
+                ...options,
+                method: METHOD.GET,
+                mode: 'cors',
+            },
+            options.timeout,
+        );
     };
 
-    post = (url: string, options: Options) => this.request(url, { ...options, method: METHOD.POST });
+    post = (url: string, options?: Options): Promise<XMLHttpRequest> =>
+        this.request(url, { ...options, method: METHOD.POST, mode: 'cors' });
 
-    put = (url: string, options: Options) => this.request(url, { ...options, method: METHOD.PUT });
+    put = (url: string, options: Options): Promise<XMLHttpRequest> =>
+        this.request(url, { ...options, method: METHOD.PUT });
 
-    delete = (url: string, options: Options) => this.request(url, { ...options, method: METHOD.DELETE });
+    delete = (url: string, options: Options): Promise<XMLHttpRequest> =>
+        this.request(url, { ...options, method: METHOD.DELETE });
 
     request(url: string, options: Options, timeout = 5000): Promise<XMLHttpRequest> {
-        const { method, data } = options;
+        const { method, data, headers = {} } = options;
 
         return new Promise((resolve, reject) => {
             if (!method) {
@@ -50,6 +51,12 @@ export default class HTTPTransport {
             xhr.onload = () => {
                 resolve(xhr);
             };
+
+            Object.keys(headers).forEach((key: string) => {
+                xhr.setRequestHeader(key, headers[key]);
+            });
+
+            xhr.withCredentials = true;
 
             xhr.onabort = reject;
             xhr.onerror = reject;

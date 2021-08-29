@@ -1,17 +1,16 @@
 @import "../../styles/variables";
 
 .avatar {
-  cursor: pointer;
   margin-bottom: 20px;
-
-  &:hover {
-    opacity: 0.3;
-  }
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
 }
 
 .avatar-block {
-  margin-bottom: 100px;
+  margin-bottom: 30px;
   color: $gray-color;
+  position: relative;
 }
 
 .user-block-list {
@@ -37,4 +36,11 @@
 
 .margin {
   margin-bottom: 30px;
+}
+
+.set-container {
+  display: flex;
+  width: 43vw;
+  justify-content: space-between;
+  max-width: 400px;
 }
