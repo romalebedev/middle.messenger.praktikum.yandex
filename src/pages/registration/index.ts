@@ -185,7 +185,7 @@ export class RegistrationPage extends Block {
         setTimeout(() => {
             const link = document.querySelector('a');
             link?.addEventListener('click', () => {
-                router.go('/sign-in');
+                router.go('/');
             });
         }, 0);
 

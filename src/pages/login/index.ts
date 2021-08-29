@@ -23,8 +23,8 @@ export class LoginPage extends Block {
 
                     const isValidLogin = validate(login);
                     const isValidPassword = validate(password);
-
-                    this.props.children?.inputEmail.setProps(setStatus(isValidLogin));
+                    console.log(this.props.children?.inputLogin);
+                    this.props.children?.inputLogin.setProps(setStatus(isValidLogin));
                     this.props.children?.inputPassword.setProps(setStatus(isValidPassword));
                     if (isValidLogin && isValidPassword) {
                         const data = {
