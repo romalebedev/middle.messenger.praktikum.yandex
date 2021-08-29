@@ -76,7 +76,7 @@ module.exports = {
         new webpack.ProvidePlugin({
             process: 'process/browser',
         }),
-        new ContextMapPlugin('node_modules/pug-filters/lib/', ['./run-filters.js', '../index.js']),
+        new ContextMapPlugin('node_modules/pug-filters/lib', ['./run-filter.js', '../index.js']),
         new HtmlWebpackPlugin({
             template: 'src/index.pug',
             minify: {
