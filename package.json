@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "### Откройте pull request в ветку main из ветки, где вы разрабатывали проект, и добавьте ссылку на этот pr в README.md в ветке main. Название pull request может быть любое.",
   "scripts": {
-    "serve": "webpack serve --mode=development --progress",
-    "start": "npm run clear && parcel ./src/index.pug --port 3000",
+    "serve": "webpack serve --mode=development --progress --host 0.0.0.0",
+    "start": "webpack && node server.js",
     "build": "webpack",
+    "docker:build": "docker build -t lesson .",
     "clear": "rimraf dist",
     "stylelint": "stylelint './src/**/*.scss' --fix",
     "eslint": "eslint '*/**/*.{js,ts}' --quiet --fix",
