@@ -1,4 +1,4 @@
-https://github.com/romalebedev/middle.messenger.praktikum.yandex/pull/4
+https://github.com/romalebedev/middle.messenger.praktikum.yandex/pull/5
 
 ## Ссылка на макет
 
@@ -9,6 +9,10 @@ https://www.figma.com/file/HjGWPHONKvb7Z1QHWlF58m/Praktikum-Chat
 
 https://jovial-leakey-c7cdc3.netlify.app/
 
+## Ссылка на Heroku
+
+https://secret-savannah-62584.herokuapp.com/
+
 ## Описание
 
 Еще одно приложение мессенджер
@@ -18,8 +22,11 @@ https://jovial-leakey-c7cdc3.netlify.app/
 - Реализована валидация полей на focus/blur и submit
 - Добавлен ESlint/Stylelint
 - Реализован роутинг на основе History API
-- Подключн WebSocket для взаимодействия с API чата
+- Подключен WebSocket для взаимодействия с API чата
 - Добавлены юнит-тесты
+- Настроен Webpack для сборки проекта
+- Добавлена Docker сборка проекта
+- Добавлен precommit
 
 ## Установка
 
