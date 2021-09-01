@@ -1,5 +1,4 @@
 const express = require('express');
-const path = require('path');
 
 const HOSTNAME = '0.0.0.0';
 const PORT = process.env.PORT || 3000;
@@ -8,8 +7,8 @@ const app = express();
 
 app.use(express.static('./dist'));
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+app.get('/*', (request, response) => {
+    response.sendFile('index.html', { root: __dirname + '/dist' });
 });
 
 app.listen(PORT, HOSTNAME, () => {
